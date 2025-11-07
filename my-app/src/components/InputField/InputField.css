@@ -1,0 +1,35 @@
+.growth-factor-search-form {
+    border: 1px solid #EEEEEE; 
+    border-radius: 10px;
+
+    display: flex; 
+    flex-direction: row;  
+    align-items: center;  
+    justify-content: center;
+    width: 972px;
+    height: 62px;
+}
+
+.growth-factor-search-form Button {
+    width: 24px;
+    height: 24px;
+    border: none;           
+    background: url("/public/search-icon.png") center/24px no-repeat transparent;
+}
+
+.growth-factor-search-form input {
+    font-size: 20px;
+    /* border: none;              */
+    border: 1px solid #EEEEEE; 
+    width: 300px;
+    outline: none;
+    background: transparent; 
+}
+
+/* .inputField > input {
+    width: 200px;
+    margin-right: 12px;
+    border: 2px solid black;
+    border-radius: 4px;
+    outline: none;
+} */

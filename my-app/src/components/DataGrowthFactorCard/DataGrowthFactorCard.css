@@ -1,0 +1,29 @@
+.card {
+    width: 228px !important;
+    height: 345px !important;
+    padding: 22.8px;
+    justify-content: space-between; 
+}
+.loadingBg {
+    z-index: 999;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.textStyle {
+    /* height: 48px;
+    overflow:hidden;
+    text-overflow:ellipsis; */
+    margin: 0 !important;
+    font-size: 16px !important;
+    color: #333333
+}
+.cardImage {
+    object-fit: cover;
+}
+.cardButton {
+    width: 100%;
+}

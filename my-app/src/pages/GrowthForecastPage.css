@@ -1,0 +1,55 @@
+#root {
+  width: 100%;
+}
+
+body {
+  display: flex;
+  margin: 0;
+  font-family: 'PT Sans', sans-serif;
+  background: #F7F7F7 !important; 
+  flex-direction: column;
+}
+
+.growth-forecast-page {
+    display: flex;
+    width: 100% !important;         
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.growth-request-img {
+  position: fixed;   
+  top: 116px;
+  right: 52px; 
+  width: 64px;
+  height: 64px;
+  display: inline-block;
+  background: url("/public/GrowthRequest.png") center/64px no-repeat transparent;
+
+  font-weight: bold;
+  color: #333333;
+  font-size: 16px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, auto); 
+  justify-content: center;
+  gap: 20px; 
+}
+
+
+
+
+
+.containerLoading {
+    filter: blur(8px);
+}
+
+/* @media (max-width: 600px) {
+    .container{
+        min-width: auto;
+    }
+} */

@@ -1,0 +1,37 @@
+/* body {
+  display: flex;
+  margin: 0;
+  background: #F7F7F7 !important; 
+  flex-direction: column;
+} */
+
+.home-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.main-page-title {
+    color: #FC8507 !important; 
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.dot {
+  width: 32px;        
+  height: 4px;        
+  background: #ccc;  
+  border-radius: 2px;  
+  display: inline-block;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.dot:hover {
+  opacity: 0.7;
+}
