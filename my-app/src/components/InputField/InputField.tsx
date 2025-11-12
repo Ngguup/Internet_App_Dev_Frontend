@@ -16,7 +16,7 @@ interface Props {
     buttonTitle?: string
 }
 
-const InputField: FC<Props> = ({ value, setValue, minCoeff, setMinCoeff, maxCoeff, setMaxCoeff, onSubmit, loading, placeholder, buttonTitle = 'Искать' }) => (
+const InputField: FC<Props> = ({ value, setValue, minCoeff, setMinCoeff, maxCoeff, setMaxCoeff, onSubmit, loading }) => (
     <form className="growth-factor-search-form">
         <input value={value} placeholder={"Поиск фактора роста"} onChange={(event => setValue(event.target.value))}/>
         <input value={minCoeff} placeholder={"Коэффициент от"} onChange={(event => setMinCoeff(event.target.value))}/>

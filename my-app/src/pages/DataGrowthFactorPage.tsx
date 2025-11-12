@@ -4,7 +4,7 @@ import { BreadCrumbs } from "../components/BreadCrumbs/BreadCrumbs";
 import { ROUTES, ROUTE_LABELS } from "../Routes";
 import { useParams } from "react-router-dom";
 import { DataGrowthFactor, getDataGrowthFactorById } from "../modules/GrowthForecastApi";
-import { Col, Row, Spinner, Image, Container} from "react-bootstrap";
+import { Col, Row, Spinner, Container} from "react-bootstrap";
 import { DATA_GROWTH_FACTORS_MOCK } from "../modules/mock";
 import defaultImage from "/DefaultImage.jpg";
 import BasicExample from "../components/BasicExample/BasicExample";

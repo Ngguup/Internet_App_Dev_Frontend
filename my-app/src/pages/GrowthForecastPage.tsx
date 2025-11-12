@@ -1,6 +1,6 @@
 import "./GrowthForecastPage.css";
 import { FC, useState, useEffect } from "react";
-import { Col, Row, Spinner, Button } from "react-bootstrap";
+import { Spinner, Button } from "react-bootstrap";
 import { DataGrowthFactor, getCartInfo, getDataGrowthFactorsByFilter } from "../modules/GrowthForecastApi";
 import InputField from "../components/InputField/InputField";
 import { BreadCrumbs } from "../components/BreadCrumbs/BreadCrumbs";
@@ -10,10 +10,18 @@ import { useNavigate } from "react-router-dom";
 import { DATA_GROWTH_FACTORS_MOCK } from "../modules/mock";
 import BasicExample from "../components/BasicExample/BasicExample";
 
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../store";
+import { setSearch, setMinCoeff, setMaxCoeff } from "../store/filterReducer";
+
+
 const GrowthForecastPage: FC = () => {
-  const [searchValue, setSearchValue] = useState("");
-  const [minCoeff, setMinCoeff] = useState("")
-  const [maxCoeff, setMaxCoeff] = useState("")
+  // const [searchValue, setSearchValue] = useState("");
+  // const [minCoeff, setMinCoeff] = useState("")
+  // const [maxCoeff, setMaxCoeff] = useState("")
+  const dispatch = useDispatch();
+  const { searchValue, minCoeff, maxCoeff } = useSelector((state: RootState) => state.filter);
+
 
   const [loading, setLoading] = useState(false);
   const [dgf, setDgf] = useState<DataGrowthFactor[]>([]);
@@ -72,7 +80,7 @@ const GrowthForecastPage: FC = () => {
         ) : (
           <div className="growth-forecast-page">
             <Button variant="outline-light" className="growth-request-img" onClick={() => {return 0;}}>{ grCart }</Button>
-            <InputField
+            {/* <InputField
               value={searchValue}
               setValue={(value) => setSearchValue(value)}
               minCoeff={minCoeff}
@@ -82,7 +90,18 @@ const GrowthForecastPage: FC = () => {
 
               loading={loading}
               onSubmit={handleSearch}
+            /> */}
+            <InputField
+              value={searchValue}
+              setValue={(value) => dispatch(setSearch(value))}
+              minCoeff={minCoeff}
+              setMinCoeff={(value) => dispatch(setMinCoeff(value))}
+              maxCoeff={maxCoeff}
+              setMaxCoeff={(value) => dispatch(setMaxCoeff(value))}
+              loading={loading}
+              onSubmit={handleSearch}
             />
+
             <div className="cards-grid mt-4">
               {dgf.map((item, index) => (
                 <DataGrowthFactorCard
