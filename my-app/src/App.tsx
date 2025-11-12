@@ -6,7 +6,7 @@ import { HomePage } from "./pages/HomePage";
 
 function App() {
   return (
-    <BrowserRouter basename="/my-app">
+    <BrowserRouter basename="/Internet_App_Dev_Frontend">
       <Routes>
         <Route path={ROUTES.HOME} index element={<HomePage />} />
         <Route path={ROUTES.DATA_GROWTH_FACTORS} element={<GrowthForecastPage />} />
