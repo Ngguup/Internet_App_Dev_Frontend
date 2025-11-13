@@ -1,10 +1,10 @@
 {
   "name": "Прогноз роста объема данных",
-  "short_name": "DataGrowth",
+  "short_name": "GrowthForecast",
   "start_url": "/Internet_App_Dev_Frontend/",
   "display": "standalone",
-  "background_color": "#fdfdfd",
-  "theme_color": "#FC8507",
+  "background_color": "#F7F7F7",
+  "theme_color": "#F7F7F7",
   "orientation": "portrait-primary",
   "icons": [
     {
