@@ -50,6 +50,22 @@ body {
   justify-content: center;
 }
 
+@media (max-width: 767px) {
+  .growth-factor-img {
+    /* max-width: 100px; */
+    width: 75%;
+  }
+
+  .growth-factor-description {
+    text-align: center;   
+    margin-top: 24px !important;      
+  }
+
+  .growth-factor-description p {
+    text-align: center;  
+  }
+}
+
 .ver {
   display: flex;
   flex-direction: column;

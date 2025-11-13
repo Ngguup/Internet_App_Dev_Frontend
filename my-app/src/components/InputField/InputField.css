@@ -10,6 +10,14 @@
     height: 62px;
 }
 
+@media (max-width: 1000px) {
+    .growth-factor-search-form {
+        width: 348px;
+        height: 145px;
+        flex-direction: column;
+    }
+}
+
 .growth-factor-search-form Button {
     width: 24px;
     height: 24px;

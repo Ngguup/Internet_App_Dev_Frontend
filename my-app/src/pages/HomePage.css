@@ -16,6 +16,12 @@
     color: #FC8507 !important; 
 }
 
+@media (max-width: 767px) {
+  .main-page-title {
+    font-size: 24px;
+  }
+}
+
 .carousel-dots {
   display: flex;
   justify-content: center;

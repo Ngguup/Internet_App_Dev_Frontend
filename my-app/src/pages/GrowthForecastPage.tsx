@@ -41,11 +41,17 @@ const GrowthForecastPage: FC = () => {
       })
       .catch(() => { 
         setDgf(
-          DATA_GROWTH_FACTORS_MOCK.filter((item) =>
-            item.Title
+          DATA_GROWTH_FACTORS_MOCK.filter((item) => {
+            const matchesTitle = item.Title
               .toLocaleLowerCase()
-              .includes(searchValue.toLocaleLowerCase())
-          )
+              .includes(searchValue.toLocaleLowerCase());
+
+            const min = minCoeff ? parseFloat(minCoeff) : -Infinity;
+            const max = maxCoeff ? parseFloat(maxCoeff) : Infinity;
+
+            const matchesCoeff = item.Coeff >= min && item.Coeff <= max;
+            return matchesTitle && matchesCoeff;
+          })
         );
         setLoading(false);
       });
