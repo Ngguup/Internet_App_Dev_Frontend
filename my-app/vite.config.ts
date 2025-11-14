@@ -10,7 +10,8 @@ import { VitePWA } from 'vite-plugin-pwa';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), mkcert(), VitePWA({})],
-  base: '/Internet_App_Dev_Frontend/',
+  // base: '/Internet_App_Dev_Frontend/',
+  base: './',
   server: {
     https:{
       key: fs.readFileSync(path.resolve(__dirname, 'cert.key')),

@@ -21,7 +21,8 @@ function App() {
 
 
   return (
-    <BrowserRouter basename="/Internet_App_Dev_Frontend">
+    // <BrowserRouter basename={("__TAURI__" in window) ? "/" : "/Internet_App_Dev_Frontend"}>
+    <BrowserRouter>
       <Routes>
         <Route path={ROUTES.HOME} index element={<HomePage />} />
         <Route path={ROUTES.DATA_GROWTH_FACTORS} element={<GrowthForecastPage />} />
