@@ -24,22 +24,14 @@ export interface CartInfoResult {
 	service_count:     number;
 }
 
-export const getDataGrowthFactorsByFilter = async (title = "", minCoeff = "", maxCoeff = ""): Promise<DataGrowthFactorResult> => {
-  return fetch(`http://localhost:8080/api/data-growth-factors?title=${title}&min_coeff=${minCoeff}&max_coeff=${maxCoeff}`).then(
-    (response) => response.json()
-  );
-};
+const API_URL = "http://192.168.1.10:8080";
 
-export const getDataGrowthFactorById = async (
-  id: number | string
-): Promise<DataGrowthFactor> => {
-  return fetch(`http://localhost:8080/api/data-growth-factors/${id}`).then(
-    (response) => response.json()
-  );
-};
+export const getDataGrowthFactorsByFilter = async (title = "", minCoeff = "", maxCoeff = "") =>
+  fetch(`${API_URL}/api/data-growth-factors?title=${title}&min_coeff=${minCoeff}&max_coeff=${maxCoeff}`)
+    .then(r => r.json());
 
-export const getCartInfo = async (): Promise<CartInfoResult> => {
-  return fetch(`http://localhost:8080/api/growth-requests/cart`).then(
-    (response) => response.json()
-  );
-};
+export const getDataGrowthFactorById = async (id: number | string) =>
+  fetch(`${API_URL}/api/data-growth-factors/${id}`).then(r => r.json());
+
+export const getCartInfo = async () =>
+  fetch(`${API_URL}/api/growth-requests/cart`).then(r => r.json());
