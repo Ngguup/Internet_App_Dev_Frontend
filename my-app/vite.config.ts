@@ -24,7 +24,7 @@ export default defineConfig({
       "/api": {
         target: api_proxy_addr,
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "/"),
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
     watch: { 
