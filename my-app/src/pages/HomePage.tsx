@@ -13,7 +13,7 @@ export const HomePage: FC = () => {
         <BasicExample />
       </header>
 
-      <Container>
+      <Container style={{ marginTop: "96px" }}>
         <Row className="justify-content-center">
           <Col md={6} className="text-center">
 
@@ -29,7 +29,7 @@ export const HomePage: FC = () => {
             </div> */}
 
             <Link to={ROUTES.DATA_GROWTH_FACTORS}>
-            <Carousel className="homepage-carousel mb-4">
+            <Carousel className="homepage-carousel">
               <Carousel.Item>
                 <img
                   className="d-block w-100 carousel-img"
