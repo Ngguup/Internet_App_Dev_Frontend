@@ -5,6 +5,7 @@
   "type": "module",
   "homepage": "https://ngguup.github.io/Internet_App_Dev_Frontend/",
   "scripts": {
+    "generate-api": "node scripts/generate-api.mjs",
     "tauri": "tauri",
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -14,6 +15,7 @@
     "deploy": "gh-pages -d dist -r https://github.com/Ngguup/Internet_App_Dev_Frontend.git"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.11.0",
     "bootstrap": "^5.3.8",
     "gh-pages": "^6.3.0",
     "react": "^19.1.1",
@@ -37,6 +39,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
+    "swagger-typescript-api": "^13.2.16",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.45.0",
     "vite": "^7.1.7",

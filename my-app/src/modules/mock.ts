@@ -1,4 +1,5 @@
 import { DataGrowthFactorResult } from "./GrowthForecastApi";
+import { DsDataGrowthFactor } from '../api/Api';
 
 export const DATA_GROWTH_FACTORS_MOCK: DataGrowthFactorResult = 
 [
