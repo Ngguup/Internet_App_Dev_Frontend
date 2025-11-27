@@ -34,6 +34,18 @@ const docTemplate = `{
                         "description": "Фильтр по названию",
                         "name": "title",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Минимальный коэффициент",
+                        "name": "min_coeff",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Максимальный коэффициент",
+                        "name": "max_coeff",
+                        "in": "query"
                     }
                 ],
                 "responses": {

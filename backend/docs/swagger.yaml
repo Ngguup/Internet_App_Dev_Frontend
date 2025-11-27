@@ -88,6 +88,14 @@ paths:
         in: query
         name: title
         type: string
+      - description: Минимальный коэффициент
+        in: query
+        name: min_coeff
+        type: string
+      - description: Максимальный коэффициент
+        in: query
+        name: max_coeff
+        type: string
       produces:
       - application/json
       responses:

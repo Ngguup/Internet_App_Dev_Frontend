@@ -3,24 +3,28 @@ import { api } from '../api';
 import { DsDataGrowthFactor } from '../api/Api';
 import { DATA_GROWTH_FACTORS_MOCK } from "../modules/mock"; // мок-данные
 
-interface CitiesState {
+interface DataGrowthFactorsState {
   searchValue: string;
-  cities: DsDataGrowthFactor[];
+  minCoeff: string;
+  maxCoeff: string;
+  dgf: DsDataGrowthFactor[];
   loading: boolean;
 }
 
-const initialState: CitiesState = {
+const initialState: DataGrowthFactorsState = {
   searchValue: '',
-  cities: [],
+  minCoeff: '',
+  maxCoeff: '', 
+  dgf: [],
   loading: false,
 };
 
-export const getCitiesList = createAsyncThunk(
-  'cities/getCitiesList',
+export const getDataGrowthFactorsList = createAsyncThunk(
+  'dgf/getDataGrowthFactorsList',
   async (_, { getState, dispatch, rejectWithValue }) => {
-    const { cities }: any = getState();
+    const { dgf }: any = getState();
     try {
-      const response = await api.api.dataGrowthFactorsList({title: cities.searchValue});
+      const response = await api.api.dataGrowthFactorsList({title: dgf.searchValue});
 
       return response.data;
     } catch (error) {
@@ -30,30 +34,49 @@ export const getCitiesList = createAsyncThunk(
 );
 
 const citiesSlice = createSlice({
-  name: 'cities',
+  name: 'dgf',
   initialState,
   reducers: {
     setSearchValue(state, action) {
       state.searchValue = action.payload;
     },
+    setMinCoeff(state, action) {
+      state.minCoeff = action.payload;
+    }, 
+    setMaxCoeff(state, action) {
+      state.maxCoeff = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getCitiesList.pending, (state) => {
+      .addCase(getDataGrowthFactorsList.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getCitiesList.fulfilled, (state, action) => {
+      .addCase(getDataGrowthFactorsList.fulfilled, (state, action) => {
         state.loading = false;
-        state.cities = action.payload;
+        state.dgf = action.payload;
       })
-      .addCase(getCitiesList.rejected, (state) => {
+      .addCase(getDataGrowthFactorsList.rejected, (state) => {
         state.loading = false;
-        state.cities = DATA_GROWTH_FACTORS_MOCK.filter((item) =>
-          item.Title.toLocaleLowerCase().startsWith(state.searchValue.toLocaleLowerCase())
-        );
+        state.dgf = DATA_GROWTH_FACTORS_MOCK.filter((item) => {
+          // item.title!.toLocaleLowerCase().startsWith(state.searchValue.toLocaleLowerCase())
+          const matchesTitle = item.title!
+            .toLocaleLowerCase()
+            .includes(state.searchValue.toLocaleLowerCase());
+
+          const min = state.minCoeff ? parseFloat(state.minCoeff) : -Infinity;
+          const max = state.maxCoeff ? parseFloat(state.maxCoeff) : Infinity;
+
+          const matchesCoeff = item.coeff! >= min && item.coeff! <= max;
+          return matchesTitle && matchesCoeff;
+
+        });
       });
   },
 });
 
 export const { setSearchValue } = citiesSlice.actions;
+export const { setMinCoeff } = citiesSlice.actions;
+export const { setMaxCoeff } = citiesSlice.actions;
+
 export default citiesSlice.reducer;

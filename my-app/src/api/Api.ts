@@ -10,17 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-export interface DsDataGrowthFactor {
-  attribute?: string;
-  coeff?: number;
-  description?: string;
-  id?: number;
-  image?: string;
-  isDelete?: boolean;
-  title?: string;
-}
-
-export interface HandlerFormattedGrowthRequest {
+export interface InternalAppHandlerFormattedGrowthRequest {
   Creator?: string;
   CurData?: number;
   DateCreate?: string;
@@ -34,24 +24,35 @@ export interface HandlerFormattedGrowthRequest {
   Status?: string;
 }
 
-export interface HandlerLoginReq {
+export interface InternalAppHandlerLoginReq {
   login?: string;
   password?: string;
 }
 
-export interface HandlerLoginResp {
+export interface InternalAppHandlerLoginResp {
   access_token?: string;
   token_type?: string;
 }
 
-export interface HandlerRegisterReq {
+export interface InternalAppHandlerRegisterReq {
   /** лучше назвать то же самое что login */
   login?: string;
   password?: string;
 }
 
-export interface HandlerRegisterResp {
+export interface InternalAppHandlerRegisterResp {
   ok?: boolean;
+}
+
+/** Фактор роста */
+export interface Lab1InternalAppDsDataGrowthFactor {
+  attribute?: string;
+  coeff?: number;
+  description?: string;
+  id?: number;
+  image?: string;
+  isDelete?: boolean;
+  title?: string;
 }
 
 import type {
@@ -256,7 +257,7 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<DsDataGrowthFactor[], any>({
+      this.request<Lab1InternalAppDsDataGrowthFactor[], any>({
         path: `/api/data-growth-factors`,
         method: "GET",
         query: query,
@@ -273,10 +274,10 @@ export class Api<
      * @request POST:/api/data-growth-factors
      */
     dataGrowthFactorsCreate: (
-      data: DsDataGrowthFactor,
+      data: Lab1InternalAppDsDataGrowthFactor,
       params: RequestParams = {},
     ) =>
-      this.request<DsDataGrowthFactor, any>({
+      this.request<Lab1InternalAppDsDataGrowthFactor, any>({
         path: `/api/data-growth-factors`,
         method: "POST",
         body: data,
@@ -294,7 +295,7 @@ export class Api<
      * @request GET:/api/data-growth-factors/{id}
      */
     dataGrowthFactorsDetail: (id: number, params: RequestParams = {}) =>
-      this.request<DsDataGrowthFactor, Record<string, string>>({
+      this.request<Lab1InternalAppDsDataGrowthFactor, Record<string, string>>({
         path: `/api/data-growth-factors/${id}`,
         method: "GET",
         format: "json",
@@ -311,7 +312,7 @@ export class Api<
      */
     dataGrowthFactorsUpdate: (
       id: number,
-      data: DsDataGrowthFactor,
+      data: Lab1InternalAppDsDataGrowthFactor,
       params: RequestParams = {},
     ) =>
       this.request<Record<string, any>, any>({
@@ -492,7 +493,10 @@ export class Api<
       input: object,
       params: RequestParams = {},
     ) =>
-      this.request<HandlerFormattedGrowthRequest, Record<string, string>>({
+      this.request<
+        InternalAppHandlerFormattedGrowthRequest,
+        Record<string, string>
+      >({
         path: `/api/growth-requests/${id}`,
         method: "PUT",
         body: input,
@@ -565,8 +569,11 @@ export class Api<
      * @summary Вход пользователя
      * @request POST:/api/users/login
      */
-    usersLoginCreate: (body: HandlerLoginReq, params: RequestParams = {}) =>
-      this.request<HandlerLoginResp, Record<string, string> | void>({
+    usersLoginCreate: (
+      body: InternalAppHandlerLoginReq,
+      params: RequestParams = {},
+    ) =>
+      this.request<InternalAppHandlerLoginResp, Record<string, string> | void>({
         path: `/api/users/login`,
         method: "POST",
         body: body,
@@ -633,10 +640,10 @@ export class Api<
      * @request POST:/api/users/register
      */
     usersRegisterCreate: (
-      body: HandlerRegisterReq,
+      body: InternalAppHandlerRegisterReq,
       params: RequestParams = {},
     ) =>
-      this.request<HandlerRegisterResp, Record<string, string>>({
+      this.request<InternalAppHandlerRegisterResp, Record<string, string>>({
         path: `/api/users/register`,
         method: "POST",
         body: body,

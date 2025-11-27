@@ -10,55 +10,56 @@ import { useNavigate } from "react-router-dom";
 import { DATA_GROWTH_FACTORS_MOCK } from "../modules/mock";
 import BasicExample from "../components/BasicExample/BasicExample";
 
+import { getDataGrowthFactorsList } from '../slices/citiesSlice';
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../store";
-import { setSearch, setMinCoeff, setMaxCoeff } from "../store/filterReducer";
+import { AppDispatch, RootState } from "../store";
+// import { setSearch, setMinCoeff, setMaxCoeff } from "../store/filterReducer";
+
+import { DsDataGrowthFactor } from "../api/Api";
 
 
 const GrowthForecastPage: FC = () => {
   // const [searchValue, setSearchValue] = useState("");
   // const [minCoeff, setMinCoeff] = useState("")
   // const [maxCoeff, setMaxCoeff] = useState("")
-  const dispatch = useDispatch();
-  const { searchValue, minCoeff, maxCoeff } = useSelector((state: RootState) => state.filter);
-
-
-  const [loading, setLoading] = useState(false);
-  const [dgf, setDgf] = useState<DataGrowthFactor[]>([]);
-
-  const [grCart, setGrCart] = useState(0)
-
+  const dispatch = useDispatch<AppDispatch>();
+  // const { searchValue, minCoeff, maxCoeff } = useSelector((state: RootState) => state.filter);
+  // const [loading, setLoading] = useState(false);
+  // const [dgf, setDgf] = useState<DsDataGrowthFactor[]>([]);
   const navigate = useNavigate();
 
-  const handleSearch = () => {
-    setLoading(true);
-    getDataGrowthFactorsByFilter(searchValue, minCoeff, maxCoeff)
-      .then((response) => {
-        setDgf(
-          response
-        );
-        setLoading(false);
-      })
-      .catch(() => { 
-        setDgf(
-          DATA_GROWTH_FACTORS_MOCK.filter((item) => {
-            const matchesTitle = item.Title
-              .toLocaleLowerCase()
-              .includes(searchValue.toLocaleLowerCase());
+  const { searchValue, minCoeff, maxCoeff, dgf, loading } = useSelector((state: RootState) => state.dgf);
+  const [grCart, setGrCart] = useState(0)
 
-            const min = minCoeff ? parseFloat(minCoeff) : -Infinity;
-            const max = maxCoeff ? parseFloat(maxCoeff) : Infinity;
+  // const handleSearch = () => {
+  //   setLoading(true);
+  //   getDataGrowthFactorsByFilter(searchValue, minCoeff, maxCoeff)
+  //     .then((response) => {
+  //       setDgf(
+  //         response
+  //       );
+  //       setLoading(false);
+  //     })
+  //     .catch(() => { 
+  //       setDgf(
+  //         DATA_GROWTH_FACTORS_MOCK.filter((item) => {
+  //           const matchesTitle = item.title!
+  //             .toLocaleLowerCase()
+  //             .includes(searchValue.toLocaleLowerCase());
 
-            const matchesCoeff = item.Coeff >= min && item.Coeff <= max;
-            return matchesTitle && matchesCoeff;
-          })
-        );
-        setLoading(false);
-      });
-  };
+  //           const min = minCoeff ? parseFloat(minCoeff) : -Infinity;
+  //           const max = maxCoeff ? parseFloat(maxCoeff) : Infinity;
+
+  //           const matchesCoeff = item.coeff! >= min && item.coeff! <= max;
+  //           return matchesTitle && matchesCoeff;
+  //         })
+  //       );
+  //       setLoading(false);
+  //     });
+  // };
 
   useEffect(() => {
-    handleSearch();
+    dispatch(getDataGrowthFactorsList());
     getCartInfo()
     .then((response) => setGrCart(response.service_count))
     .catch(() => setGrCart(0))
@@ -98,21 +99,21 @@ const GrowthForecastPage: FC = () => {
               onSubmit={handleSearch}
             /> */}
             <InputField
-              value={searchValue}
-              setValue={(value) => dispatch(setSearch(value))}
+              searchValue={searchValue}
+              // setValue={(value) => dispatch(setSearch(value))}
               minCoeff={minCoeff}
-              setMinCoeff={(value) => dispatch(setMinCoeff(value))}
+              // setMinCoeff={(value) => dispatch(setMinCoeff(value))}
               maxCoeff={maxCoeff}
-              setMaxCoeff={(value) => dispatch(setMaxCoeff(value))}
+              // setMaxCoeff={(value) => dispatch(setMaxCoeff(value))}
               loading={loading}
-              onSubmit={handleSearch}
+              // onSubmit={handleSearch}
             />
 
             <div className="cards-grid mt-4">
               {dgf.map((item, index) => (
                 <DataGrowthFactorCard
                   key={index}
-                  imageClickHandler={() => handleCardClick(item.ID)}
+                  imageClickHandler={() => handleCardClick(item.id!)}
                   {...item}
                 />
               ))}

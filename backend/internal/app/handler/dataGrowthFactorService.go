@@ -22,6 +22,8 @@ import (
 // @Tags         data_growth_factors
 // @Produce      json
 // @Param        title  query  string  false  "Фильтр по названию"
+// @Param        min_coeff  query  string  false "Минимальный коэффициент" 
+// @Param        max_coeff  query  string  false "Максимальный коэффициент"
 // @Success      200  {array}  ds.DataGrowthFactor
 // @Router       /api/data-growth-factors [get]
 func (h *Handler) GetAllDataGrowthFactors(ctx *gin.Context) {
