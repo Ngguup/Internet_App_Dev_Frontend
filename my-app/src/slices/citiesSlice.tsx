@@ -24,7 +24,7 @@ export const getDataGrowthFactorsList = createAsyncThunk(
   async (_, { getState, dispatch, rejectWithValue }) => {
     const { dgf }: any = getState();
     try {
-      const response = await api.api.dataGrowthFactorsList({title: dgf.searchValue});
+      const response = await api.api.dataGrowthFactorsList({title: dgf.searchValue, min_coeff: dgf.minCoeff, max_coeff: dgf.maxCoeff});
 
       return response.data;
     } catch (error) {
@@ -55,6 +55,7 @@ const citiesSlice = createSlice({
       .addCase(getDataGrowthFactorsList.fulfilled, (state, action) => {
         state.loading = false;
         state.dgf = action.payload;
+        console.log("dgf:", state.dgf)
       })
       .addCase(getDataGrowthFactorsList.rejected, (state) => {
         state.loading = false;

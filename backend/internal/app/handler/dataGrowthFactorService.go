@@ -21,7 +21,7 @@ import (
 // @Description  Возвращает все услуги (факторы роста) с возможностью фильтрации по названию
 // @Tags         data_growth_factors
 // @Produce      json
-// @Param        title  query  string  false  "Фильтр по названию"
+// @Param        title  query  string  false  "Фильтр по названию2"
 // @Param        min_coeff  query  string  false "Минимальный коэффициент" 
 // @Param        max_coeff  query  string  false "Максимальный коэффициент"
 // @Success      200  {array}  ds.DataGrowthFactor

@@ -10,7 +10,17 @@
  * ---------------------------------------------------------------
  */
 
-export interface InternalAppHandlerFormattedGrowthRequest {
+export interface DsDataGrowthFactor {
+  attribute?: string;
+  coeff?: number;
+  description?: string;
+  id?: number;
+  image?: string;
+  isDelete?: boolean;
+  title?: string;
+}
+
+export interface HandlerFormattedGrowthRequest {
   Creator?: string;
   CurData?: number;
   DateCreate?: string;
@@ -24,35 +34,24 @@ export interface InternalAppHandlerFormattedGrowthRequest {
   Status?: string;
 }
 
-export interface InternalAppHandlerLoginReq {
+export interface HandlerLoginReq {
   login?: string;
   password?: string;
 }
 
-export interface InternalAppHandlerLoginResp {
+export interface HandlerLoginResp {
   access_token?: string;
   token_type?: string;
 }
 
-export interface InternalAppHandlerRegisterReq {
+export interface HandlerRegisterReq {
   /** лучше назвать то же самое что login */
   login?: string;
   password?: string;
 }
 
-export interface InternalAppHandlerRegisterResp {
+export interface HandlerRegisterResp {
   ok?: boolean;
-}
-
-/** Фактор роста */
-export interface Lab1InternalAppDsDataGrowthFactor {
-  attribute?: string;
-  coeff?: number;
-  description?: string;
-  id?: number;
-  image?: string;
-  isDelete?: boolean;
-  title?: string;
 }
 
 import type {
@@ -252,12 +251,16 @@ export class Api<
      */
     dataGrowthFactorsList: (
       query?: {
-        /** Фильтр по названию */
+        /** Фильтр по названию2 */
         title?: string;
+        /** Минимальный коэффициент */
+        min_coeff?: string;
+        /** Максимальный коэффициент */
+        max_coeff?: string;
       },
       params: RequestParams = {},
     ) =>
-      this.request<Lab1InternalAppDsDataGrowthFactor[], any>({
+      this.request<DsDataGrowthFactor[], any>({
         path: `/api/data-growth-factors`,
         method: "GET",
         query: query,
@@ -274,10 +277,10 @@ export class Api<
      * @request POST:/api/data-growth-factors
      */
     dataGrowthFactorsCreate: (
-      data: Lab1InternalAppDsDataGrowthFactor,
+      data: DsDataGrowthFactor,
       params: RequestParams = {},
     ) =>
-      this.request<Lab1InternalAppDsDataGrowthFactor, any>({
+      this.request<DsDataGrowthFactor, any>({
         path: `/api/data-growth-factors`,
         method: "POST",
         body: data,
@@ -295,7 +298,7 @@ export class Api<
      * @request GET:/api/data-growth-factors/{id}
      */
     dataGrowthFactorsDetail: (id: number, params: RequestParams = {}) =>
-      this.request<Lab1InternalAppDsDataGrowthFactor, Record<string, string>>({
+      this.request<DsDataGrowthFactor, Record<string, string>>({
         path: `/api/data-growth-factors/${id}`,
         method: "GET",
         format: "json",
@@ -312,7 +315,7 @@ export class Api<
      */
     dataGrowthFactorsUpdate: (
       id: number,
-      data: Lab1InternalAppDsDataGrowthFactor,
+      data: DsDataGrowthFactor,
       params: RequestParams = {},
     ) =>
       this.request<Record<string, any>, any>({
@@ -493,10 +496,7 @@ export class Api<
       input: object,
       params: RequestParams = {},
     ) =>
-      this.request<
-        InternalAppHandlerFormattedGrowthRequest,
-        Record<string, string>
-      >({
+      this.request<HandlerFormattedGrowthRequest, Record<string, string>>({
         path: `/api/growth-requests/${id}`,
         method: "PUT",
         body: input,
@@ -569,11 +569,8 @@ export class Api<
      * @summary Вход пользователя
      * @request POST:/api/users/login
      */
-    usersLoginCreate: (
-      body: InternalAppHandlerLoginReq,
-      params: RequestParams = {},
-    ) =>
-      this.request<InternalAppHandlerLoginResp, Record<string, string> | void>({
+    usersLoginCreate: (body: HandlerLoginReq, params: RequestParams = {}) =>
+      this.request<HandlerLoginResp, Record<string, string> | void>({
         path: `/api/users/login`,
         method: "POST",
         body: body,
@@ -640,10 +637,10 @@ export class Api<
      * @request POST:/api/users/register
      */
     usersRegisterCreate: (
-      body: InternalAppHandlerRegisterReq,
+      body: HandlerRegisterReq,
       params: RequestParams = {},
     ) =>
-      this.request<InternalAppHandlerRegisterResp, Record<string, string>>({
+      this.request<HandlerRegisterResp, Record<string, string>>({
         path: `/api/users/register`,
         method: "POST",
         body: body,

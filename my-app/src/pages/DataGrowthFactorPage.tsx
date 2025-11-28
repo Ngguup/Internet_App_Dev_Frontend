@@ -9,8 +9,10 @@ import { DATA_GROWTH_FACTORS_MOCK } from "../modules/mock";
 import defaultImage from "/DefaultImage.jpg";
 import BasicExample from "../components/BasicExample/BasicExample";
 
+import { DsDataGrowthFactor } from '../api/Api';
+
 export const DataGrowthFactorPage: FC = () => {
-  const [pageData, setPageDdata] = useState<DataGrowthFactor>();
+  const [pageData, setPageDdata] = useState<DsDataGrowthFactor>();
 
   const { id } = useParams(); 
 
@@ -22,7 +24,7 @@ export const DataGrowthFactorPage: FC = () => {
         () =>
           setPageDdata(
             DATA_GROWTH_FACTORS_MOCK.find(
-              (dgf) => String(dgf.ID) == id
+              (dgf) => String(dgf.id) == id
             )
           ) 
       );
@@ -34,7 +36,7 @@ export const DataGrowthFactorPage: FC = () => {
       <BreadCrumbs
         crumbs={[
           { label: ROUTE_LABELS.DATA_GROWTH_FACTORS, path: ROUTES.DATA_GROWTH_FACTORS },
-          { label: pageData?.Title || "Фактор" },
+          { label: pageData?.title || "Фактор" },
         ]}
       />
       {pageData ? ( 
@@ -63,15 +65,15 @@ export const DataGrowthFactorPage: FC = () => {
               <Col md={5} className="text-center">
                 <img
                   className="growth-factor-img img-fluid"
-                  src={pageData.Image || defaultImage}
+                  src={pageData.image || defaultImage}
                   alt="Изображение"
                 />
               </Col>
               <Col md={5} className="growth-factor-description">
-                <p className="title">{pageData.Title}</p>
+                <p className="title">{pageData.title}</p>
                 <div className="ver">
-                  <p>{pageData.Description}</p>
-                  <p>Коэффициент: {pageData.Coeff}</p>
+                  <p>{pageData.description}</p>
+                  <p>Коэффициент: {pageData.coeff}</p>
                 </div>
               </Col>
             </Row>

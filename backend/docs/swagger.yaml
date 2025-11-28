@@ -84,7 +84,7 @@ paths:
       description: Возвращает все услуги (факторы роста) с возможностью фильтрации
         по названию
       parameters:
-      - description: Фильтр по названию
+      - description: Фильтр по названию2
         in: query
         name: title
         type: string

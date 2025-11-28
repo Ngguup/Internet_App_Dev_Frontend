@@ -31,7 +31,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Фильтр по названию",
+                        "description": "Фильтр по названию2",
                         "name": "title",
                         "in": "query"
                     },
