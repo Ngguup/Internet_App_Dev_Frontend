@@ -29,7 +29,15 @@ const GrowthForecastPage: FC = () => {
   const navigate = useNavigate();
 
   const { searchValue, minCoeff, maxCoeff, dgf, loading } = useSelector((state: RootState) => state.dgf);
+
+  const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
+  const app_id = useSelector((state: RootState) => state.vacancyApplicationDraft.app_id);
+  const count = useSelector((state: RootState) => state.vacancyApplicationDraft.count);
   const [grCart, setGrCart] = useState(0)
+
+  const handleClick = (app_id: number | null) => {
+      navigate(`${ROUTES.VACANCYAPPLICATION}/${app_id}`);
+  };
 
   // const handleSearch = () => {
   //   setLoading(true);
@@ -87,6 +95,13 @@ const GrowthForecastPage: FC = () => {
         ) : (
           <div className="growth-forecast-page">
             <Button variant="outline-light" className="growth-request-img" onClick={() => {return 0;}}>{ grCart }</Button>
+
+            <Button className="btn-favorites" onClick={() => handleClick(app_id? app_id : NaN)} disabled={(!isAuthenticated) || (!app_id)}>
+              <img src={favoriteImg} alt="Избранное" />
+              {(!isAuthenticated || !app_id) ? null : (
+                  <span className="badge rounded-pill position-absolute">{count}</span>
+              )}
+            </Button>
             {/* <InputField
               value={searchValue}
               setValue={(value) => setSearchValue(value)}

@@ -3,6 +3,8 @@ import { api } from '../api';
 import { DsDataGrowthFactor } from '../api/Api';
 import { DATA_GROWTH_FACTORS_MOCK } from "../modules/mock"; // мок-данные
 
+import { setAppId, setCount } from './vacancyApplicationDraftSlice';
+
 interface DataGrowthFactorsState {
   searchValue: string;
   minCoeff: string;
@@ -25,6 +27,12 @@ export const getDataGrowthFactorsList = createAsyncThunk(
     const { dgf }: any = getState();
     try {
       const response = await api.api.dataGrowthFactorsList({title: dgf.searchValue, min_coeff: dgf.minCoeff, max_coeff: dgf.maxCoeff});
+
+      const app_id = response.data.draft_vacancy_application; // ID черновой заявки
+      const count = response.data.count; // количество услуг в черновой заявке
+
+      dispatch(setAppId(app_id));
+      dispatch(setCount(count));
 
       return response.data;
     } catch (error) {
