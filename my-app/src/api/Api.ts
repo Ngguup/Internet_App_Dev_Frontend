@@ -428,8 +428,9 @@ export class Api<
      *
      * @tags growth_requests
      * @name GrowthRequestsList
-     * @summary Получить список заявок на рост
+     * @summary Получить список заявок на рост 2
      * @request GET:/api/growth-requests
+     * @secure
      */
     growthRequestsList: (
       query?: {
@@ -446,6 +447,7 @@ export class Api<
         path: `/api/growth-requests`,
         method: "GET",
         query: query,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,

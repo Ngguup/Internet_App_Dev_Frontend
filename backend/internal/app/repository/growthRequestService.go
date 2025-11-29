@@ -106,6 +106,7 @@ func (r *Repository) GetGrowthRequestByID(id string) (ds.GrowthRequest, []map[st
 			dgf.coeff, 
 			dgf.description, 
 			dgf.is_delete,
+			dgf.attribute,
 			grdf.factor_num
 		`).
 		Joins("JOIN growth_request_data_growth_factors grdf ON grdf.data_growth_factor_id = dgf.id").
@@ -126,9 +127,10 @@ func (r *Repository) GetGrowthRequestByID(id string) (ds.GrowthRequest, []map[st
 			coeff       float64
 			description string
 			isDelete    bool
+			attribute   string
 			factorNum   float64
 		)
-		if err := rows.Scan(&id, &title, &image, &coeff, &description, &isDelete, &factorNum); err != nil {
+		if err := rows.Scan(&id, &title, &image, &coeff, &description, &isDelete, &attribute, &factorNum); err != nil {
 			return req, nil, err
 		}
 
@@ -139,6 +141,7 @@ func (r *Repository) GetGrowthRequestByID(id string) (ds.GrowthRequest, []map[st
 			"Coeff":       coeff,
 			"Description": description,
 			"IsDelete":    isDelete,
+			"Attribute":   attribute,
 			"FactorNum":   factorNum,
 		})
 	}

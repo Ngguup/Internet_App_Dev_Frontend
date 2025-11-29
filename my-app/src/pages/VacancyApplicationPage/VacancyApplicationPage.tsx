@@ -1,12 +1,12 @@
 import "./VacancyApplicationPage.css"
 import { FC } from 'react';
-import { Col, Row, Image, Alert } from "react-bootstrap";
-import FavImage from "../../static/images/favorites.png"
+import { Col, Row, Image, Alert, Form, Button } from "react-bootstrap";
 
-import { ROUTES } from '../../../Routes';
-import { CityCard } from '../../components/CityCard/CityCard';
-import Header from "../../components/Header/Header";
-import { ROUTE_LABELS } from '../../../Routes';
+import { ROUTES } from '../../Routes';
+import { ROUTE_LABELS } from '../../Routes';
+import default_image from "/DefaultImage.jpg";
+import { DataGrowthFactorCard } from "../../components/DataGrowthFactorCard/DataGrowthFactorCard";
+import BasicExample from "../../components/BasicExample/BasicExample";
 
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -21,33 +21,34 @@ import { updateVacancyApplication } from '../../slices/vacancyApplicationDraftSl
 
 const VacancyApplicationPage: FC = () => {
   const { app_id } = useParams();
+  const app_id_num = Number(app_id)
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const {
-    cities,
-    vacancyData,
+    factors,
+    growth_request,
     error,
   } = useSelector((state: RootState) => state.vacancyApplicationDraft);
   const isDraft = useSelector((state: RootState) => state.vacancyApplicationDraft.isDraft);
 
   useEffect(() => {
     if (app_id) {
-      dispatch(getVacancyApplication(app_id));
+      dispatch(getVacancyApplication(app_id_num));
     }
   }, [dispatch]);
 
   const handleCardClick = (city_id: number | undefined) => {
-    navigate(`${ROUTES.CITIES}/${city_id}`);
+    navigate(`${ROUTES.DATA_GROWTH_FACTORS}/${city_id}`);
   };
 
   const handleDelete = async (e: React.FormEvent) => {
     e.preventDefault();
     if (app_id) {
       try {
-        await dispatch(deleteVacancyApplication(app_id)).unwrap();
-      navigate(ROUTES.CITIES);
+        await dispatch(deleteVacancyApplication(app_id_num)).unwrap();
+      navigate(ROUTES.DATA_GROWTH_FACTORS);
       } catch (error) {
         dispatch(setError(error));
       }
@@ -58,7 +59,7 @@ const VacancyApplicationPage: FC = () => {
     const { name, value } = e.target;
     dispatch(
         setVacancyData({
-            ...vacancyData,
+            ...growth_request,
             [name]: value,
         })
     );
@@ -66,13 +67,13 @@ const VacancyApplicationPage: FC = () => {
 
   const handleSaveVacancy = () => {
     if (app_id) {
-      const vacancyDataToSend = {
-        vacancy_name: vacancyData.vacancy_name ?? '',
-        vacancy_responsibilities: vacancyData.vacancy_responsibilities ?? '',
-        vacancy_requirements: vacancyData.vacancy_requirements ?? ''
+      const growthRequestDataToSend = {
+        CurData: growth_request.CurData ?? NaN,
+        StartPeriod: growth_request.StartPeriod ?? '',
+        EndPeriod: growth_request.EndPeriod ?? ''
       };
       try {
-        dispatch(updateVacancyApplication({ appId: app_id, vacancyData: vacancyDataToSend }));
+        dispatch(updateVacancyApplication({ appId: app_id_num, growthRequestData: growthRequestDataToSend }));
       } catch (error) {
         dispatch(setError(error));
       }
@@ -81,7 +82,7 @@ const VacancyApplicationPage: FC = () => {
 
   return (
     <div>
-      <Header />
+      <BasicExample />
       <div className="container-2">  
         <div className="fav-content">
           {error && <Alert variant="danger" style={{ width: '15vw'}}>{error}</Alert>}
@@ -90,14 +91,14 @@ const VacancyApplicationPage: FC = () => {
                 <h1>Вакансия</h1>
               </Col>
               <Col md={4} xs={4}>
-                <Image src={FavImage}></Image>
+                <Image src={default_image}></Image>
               </Col>
           </Row>
           {(!isDraft) ? (
             <div>
-                <h4>Название вакансии: {vacancyData.vacancy_name}</h4>
-                <h4>Обязанности: {vacancyData.vacancy_responsibilities}</h4>
-                <h4>Требования: {vacancyData.vacancy_requirements}</h4>
+                <h4>Название вакансии: {growth_request.CurData}</h4>
+                <h4>Обязанности: {growth_request.StartPeriod}</h4>
+                <h4>Требования: {growth_request.EndPeriod}</h4>
             </div>
             ) : (
             <div>
@@ -106,7 +107,7 @@ const VacancyApplicationPage: FC = () => {
                 <Form.Control
                     type="text"
                     name="vacancy_name"
-                    value={vacancyData.vacancy_name ?? ''}
+                    value={growth_request.CurData ?? NaN}
                     onChange={handleInputChange}
                     required
                     disabled={!isDraft}
@@ -118,7 +119,7 @@ const VacancyApplicationPage: FC = () => {
                 <Form.Control
                     as="textarea"
                     name="vacancy_responsibilities"
-                    value={vacancyData.vacancy_responsibilities ?? ''}
+                    value={growth_request.StartPeriod ?? ''}
                     onChange={handleInputChange}
                     rows={4}
                     required
@@ -131,7 +132,7 @@ const VacancyApplicationPage: FC = () => {
                 <Form.Control
                     as="textarea"
                     name="vacancy_requirements"
-                    value={vacancyData.vacancy_requirements ?? ''} 
+                    value={growth_request.EndPeriod ?? ''} 
                     onChange={handleInputChange}
                     rows={4}
                     required
@@ -146,18 +147,17 @@ const VacancyApplicationPage: FC = () => {
             )}
           <h1>Выбранные города для размещения Вашей вакансии</h1>
           <div className="cards-wrapper-2 d-flex flex-column">
-            {cities.length ? (
-              cities.map((item) => (
-                <Col key={item.city_id?.city_id}>
-                  <CityCard
-                    city_id={item.city_id?.city_id}
-                    url={item.city_id?.url}
-                    city_name={item.city_id?.name}
-                    population={item.city_id?.population}
-                    salary={item.city_id?.salary}
-                    unemployment_rate={item.city_id?.unemployment_rate}
-                    imageClickHandler={() => handleCardClick(item.city_id?.city_id)}
-                    count={item.count}
+            {factors.length ? (
+              factors.map((item) => (
+                <Col key={item.ID}>
+                  <DataGrowthFactorCard
+                    id={item.ID}
+                    image={item.Image}
+                    title={item.Attribute}
+                    coeff={item.Coeff}
+                    imageClickHandler={() => handleCardClick(item.ID)}
+                    factors={factors}
+                    app_id={app_id}
                     isDraft={isDraft}
                   />
                 </Col>

@@ -65,6 +65,7 @@ func (h *Handler) RegisterHandler(router *gin.Engine) {
 		apiCreatorModerator.POST("/data-growth-factors/:id/add", h.AddDataGrowthFactorToDraft)
 
 		apiCreatorModerator.GET("/growth-requests", h.GetGrowthRequests)
+		apiCreatorModerator.GET("/growth-requests/:id", h.GetGrowthRequestByID)
 
 		apiCreatorModerator.PUT("/growth-requests/:id", h.UpdateGrowthRequest)
 		apiCreatorModerator.PUT("/growth-requests/:id/form", h.FormGrowthRequest)
@@ -86,7 +87,6 @@ func (h *Handler) RegisterHandler(router *gin.Engine) {
 		apiModerator.DELETE("/data-growth-factors/:id", h.DeleteDataGrowthFactor)
 		apiModerator.POST("/data-growth-factors/:id/image", h.UploadDataGrowthFactorImage)
 
-		apiModerator.GET("/growth-requests/:id", h.GetGrowthRequestByID)
 		apiModerator.PUT("/growth-requests/:id/complete", h.CompleteOrRejectGrowthRequest)
 	}
 

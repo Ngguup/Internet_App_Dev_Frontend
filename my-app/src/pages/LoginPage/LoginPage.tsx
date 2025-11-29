@@ -4,14 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { loginUserAsync } from '../../slices/userSlice';
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header/Header";
-import { ROUTES } from '../../../Routes';
+// import Header from "../../components/Header/Header";
+import BasicExample from '../../components/BasicExample/BasicExample';
+import { ROUTES } from '../../Routes';
 
 const LoginPage: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({ username: '', password: '' });
+    const [formData, setFormData] = useState({ login: '', password: '' });
     const error = useSelector((state: RootState) => state.user.error);
 
     // Обработчик события изменения полей ввода (username и password)
@@ -22,25 +23,25 @@ const LoginPage: React.FC = () => {
     // Обработчки события нажатия на кнопку "Войти"
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        if (formData.username && formData.password) {
+        if (formData.login && formData.password) {
             await dispatch(loginUserAsync(formData)); // Отправляем 'thunk'
-            navigate(`${ROUTES.CITIES}`); // переход на страницу услуг
+            navigate(`${ROUTES.DATA_GROWTH_FACTORS}`); // переход на страницу услуг
         }
     };
 
     return (
         <Container style={{ maxWidth: '100%', marginTop: '0' }}> 
-            <Header/>
+            <BasicExample/>
             <Container style={{ maxWidth: '400px', marginTop: '150px' }}>
                 <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Рады снова Вас видеть!</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="username" style={{ marginBottom: '15px' }}>
+                    <Form.Group controlId="login" style={{ marginBottom: '15px' }}>
                         <Form.Label>Имя пользователя</Form.Label>
                         <Form.Control
                             type="text"
-                            name="username"
-                            value={formData.username}
+                            name="login"
+                            value={formData.login}
                             onChange={handleChange}
                             placeholder="Введите имя пользователя"
                         />

@@ -2,13 +2,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../api';
 
 interface UserState {
-  username: string;
+  login: string;
   isAuthenticated: boolean;
   error?: string | null; 
 }
 
 const initialState: UserState = {
-  username: '',
+  login: '',
   isAuthenticated: false,
   error: null,
 };
@@ -16,10 +16,10 @@ const initialState: UserState = {
 // Асинхронное действие для авторизации
 export const loginUserAsync = createAsyncThunk(
   'user/loginUserAsync',
-  async (credentials: { username: string; password: string }, { rejectWithValue }) => {
+  async (credentials: { login: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await api.login.loginCreate(credentials);
-      return response.data; 
+      const response = await api.api.usersLoginCreate(credentials);
+      return {"response": response.data, "login": credentials.login}; 
     } catch (error) {
       return rejectWithValue('Ошибка авторизации'); // Возвращаем ошибку в случае неудачи
     }
@@ -31,7 +31,7 @@ export const logoutUserAsync = createAsyncThunk(
   'user/logoutUserAsync',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.logout.logoutCreate();
+      const response = await api.api.usersLogoutCreate();
       return response.data; 
     } catch (error) {
       return rejectWithValue('Ошибка при выходе из системы'); 
@@ -49,8 +49,8 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUserAsync.fulfilled, (state, action) => {
-        const { username } = action.payload;
-        state.username = username;
+        api.setSecurityData(action.payload.response.access_token);
+        state.login = action.payload.login;
         state.isAuthenticated = true;
         state.error = null;
       })
@@ -60,7 +60,8 @@ const userSlice = createSlice({
       })
 
       .addCase(logoutUserAsync.fulfilled, (state) => {
-        state.username = '';
+        api.setSecurityData(null) //?
+        state.login = '';
         state.isAuthenticated = false;
         state.error = null;
       })

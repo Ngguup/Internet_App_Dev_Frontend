@@ -1,96 +1,89 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../api';
 
-interface VacancyApplicationState {
-  app_id?: number;
+interface GrowthRequestState {
+  app_id: number;
   count: number | undefined;
 
-  cities: City[]; // массив услуг
-  vacancyData: VacancyData; // поля заявки
-  error: string | null;
+  factors: DataGrowthFactor[]; // массив услуг
+  growth_request: GrowthRequestData; // поля заявки
 
+  error: string | null;
   isDraft: boolean;
 }
 
-const initialState: VacancyApplicationState = {
+const initialState: GrowthRequestState = {
   app_id: NaN,
   count: NaN,
 
-  cities: [],
-  vacancyData: {
-    vacancy_name: '',
-    vacancy_responsibilities: '',
-    vacancy_requirements: ''
+  factors: [],
+  growth_request: {
+    CurData: NaN,
+    StartPeriod: '',
+    EndPeriod: ''
   },
+  
   error: null,
-
   isDraft: false,
 };
 
-interface City {
-    city_id?: { 
-        city_id?: number | undefined; 
-        name: string; 
-        population: string; 
-        salary: string; 
-        unemployment_rate: string; 
-        description: string; 
-        url?: string | undefined; 
-    } | undefined;
-    count?: number | undefined;  
+export interface DataGrowthFactor {
+    ID: number;
+    Title: string;
+    Attribute: string;
+    FactorNum: number;
+    Coeff: number;
+    Image: string;
 }
 
-interface VacancyData {
-    vacancy_name?: string | null;
-    vacancy_responsibilities?: string | null;
-    vacancy_requirements?: string | null;
+interface GrowthRequestData {
+    CurData?: number | null;
+    StartPeriod?: string | null;
+    EndPeriod?: string | null;
 }
 
 
 export const getVacancyApplication = createAsyncThunk(
   'vacancyApplication/getVacancyApplication',
-  async (appId: string) => {
-    const response = await api.vacancyApplications.vacancyApplicationsRead(appId);
+  async (appId: number) => {
+    const response = await api.api.growthRequestsDetail(appId);
     return response.data;
   }
 );
 
 export const addCityToVacancyApplication = createAsyncThunk(
   'cities/addCityToVacancyApplication',
-  async (cityId: number) => {
-    const response = await api.cities.citiesAddToVacancyApplicationCreate(cityId.toString());
+  async (factorId: number) => {
+    const response = await api.api.dataGrowthFactorsAddCreate(factorId);
     return response.data;
   }
 );
 
 export const deleteVacancyApplication = createAsyncThunk(
   'vacancyApplication/deleteVacancyApplication',
-  async (appId: string) => {
-    const response = await api.vacancyApplications.vacancyApplicationsDeleteVacancyApplicationDelete(appId);
+  async (appId: number) => {
+    const response = await api.api.growthRequestsDelete(appId);
     return response.data;
   }
 );
 
 export const updateVacancyApplication = createAsyncThunk(
   'vacancyApplication/updateVacancyApplication',
-  async ({ appId, vacancyData }: { appId: string; vacancyData: VacancyData }) => {
-    const vacancyDataToSend = {
-      vacancy_name: vacancyData.vacancy_name ?? '', 
-      vacancy_responsibilities: vacancyData.vacancy_responsibilities ?? '',
-      vacancy_requirements: vacancyData.vacancy_requirements ?? ''
+  async ({ appId, growthRequestData }: { appId: number; growthRequestData: GrowthRequestData }) => {
+    const growthRequestDataToSend = {
+      cur_data: growthRequestData.CurData ?? '', 
+      start_period: growthRequestData.StartPeriod ?? '',
+      end_period: growthRequestData.EndPeriod ?? ''
     };
-    const response = await api.vacancyApplications.vacancyApplicationsUpdateVacancyUpdate(appId, vacancyDataToSend);
+    const response = await api.api.growthRequestsUpdate(appId, growthRequestDataToSend);
     return response.data;
   }
 );
 
 export const deleteCityFromVacancyApplication = createAsyncThunk(
   'cities/deleteCityFromVacancyApplication',
-  async ({ appId, cityId }: { appId: number; cityId: number }) => {
-    await api.citiesVacancyApplications.citiesVacancyApplicationsDeleteCityFromVacancyApplicationDelete(
-      appId.toString(),
-      cityId.toString()
-    ); 
+  async (factorId : number) => {
+    await api.api.growthRequestDataGrowthFactorsDelete(factorId); 
   }
 );
 
@@ -109,30 +102,30 @@ const vacancyApplicationDraftSlice = createSlice({
       state.error = action.payload;
     },
     setVacancyData: (state, action) => {
-        state.vacancyData = {
-            ...state.vacancyData,
+        state.growth_request = {
+            ...state.growth_request,
             ...action.payload,
         };
     },
     setCities: (state, action) => {
-        state.cities = action.payload;
+        state.factors = action.payload;
     },
   },
 
   extraReducers: (builder) => {
     builder
         .addCase(getVacancyApplication.fulfilled, (state, action) => {
-            const { vacancy_application, cities } = action.payload;
-            if (vacancy_application && cities) {
-                state.app_id = vacancy_application.app_id;
-                state.vacancyData = {
-                    vacancy_name: vacancy_application.vacancy_name,
-                    vacancy_responsibilities: vacancy_application.vacancy_responsibilities,
-                    vacancy_requirements: vacancy_application.vacancy_requirements
+            const { growth_request, factors } = action.payload;
+            if (growth_request && factors) {
+                state.app_id = growth_request.ID;
+                state.growth_request = {
+                    CurData: growth_request.CurData,
+                    StartPeriod: growth_request.StartPeriod,
+                    EndPeriod: growth_request.EndPeriod
                 };
-                state.cities = cities || [];
+                state.factors = factors || [];
             }
-            state.isDraft = vacancy_application.status === 1;
+            state.isDraft = growth_request.Status === "черновик";
         })
         .addCase(getVacancyApplication.rejected, (state) => {
             state.error = 'Ошибка при загрузке данных';
@@ -141,11 +134,11 @@ const vacancyApplicationDraftSlice = createSlice({
         .addCase(deleteVacancyApplication.fulfilled, (state) => {
             state.app_id = NaN;
             state.count = NaN;
-            state.cities = [];
-            state.vacancyData = {
-                vacancy_name: '',
-                vacancy_responsibilities: '',
-                vacancy_requirements: ''
+            state.factors = [];
+            state.growth_request = {
+                CurData: NaN,
+                StartPeriod: '',
+                EndPeriod: ''
             };
         })
         .addCase(deleteVacancyApplication.rejected, (state) => {
@@ -153,7 +146,11 @@ const vacancyApplicationDraftSlice = createSlice({
         })
 
         .addCase(updateVacancyApplication.fulfilled, (state, action) => {
-            state.vacancyData = action.payload;
+            state.growth_request = {
+                CurData: action.payload.CurData,
+                StartPeriod: action.payload.StartPeriod,
+                EndPeriod: action.payload.EndPeriod
+            };
         })
         .addCase(updateVacancyApplication.rejected, (state) => {
             state.error = 'Ошибка при обновлении данных';

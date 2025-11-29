@@ -390,6 +390,11 @@ const docTemplate = `{
         },
         "/api/growth-requests": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Возвращает все заявки с фильтрацией по статусу и дате",
                 "consumes": [
                     "application/json"
@@ -400,7 +405,7 @@ const docTemplate = `{
                 "tags": [
                     "growth_requests"
                 ],
-                "summary": "Получить список заявок на рост",
+                "summary": "Получить список заявок на рост 2",
                 "parameters": [
                     {
                         "type": "string",
@@ -1104,6 +1109,13 @@ const docTemplate = `{
                     "type": "boolean"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

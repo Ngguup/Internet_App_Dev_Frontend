@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"errors"
 	"lab1/internal/app/ds"
 	"lab1/internal/app/role"
@@ -15,58 +16,57 @@ import (
 
 const jwtPrefix = "Bearer "
 
-func (h *Handler) WithAuthCheck(assignedRoles ...role.Role) func(ctx *gin.Context) {
+func (h *Handler) ParseAndValidateJWT(gCtx *gin.Context) (*ds.JWTClaims, error) {
+	authHeader := gCtx.GetHeader("Authorization")
+	if !strings.HasPrefix(authHeader, jwtPrefix) {
+		return nil, errors.New("invalid authorization header")
+	}
+
+	jwtStr := authHeader[len(jwtPrefix):]
+
+	// Проверка blacklist
+	err := h.Redis.CheckJWTInBlacklist(context.Background(), jwtStr)
+	if err == nil {
+		return nil, errors.New("token is blacklisted")
+	}
+	if !errors.Is(err, redis.Nil) {
+		return nil, err
+	}
+
+	// Парсим токен
+	token, err := jwt.ParseWithClaims(jwtStr, &ds.JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(h.Config.JWT.Token), nil
+	})
+	if err != nil || !token.Valid {
+		return nil, errors.New("invalid token")
+	}
+
+	return token.Claims.(*ds.JWTClaims), nil
+}
+
+func (h *Handler) WithAuthCheck(assignedRoles ...role.Role) gin.HandlerFunc {
 	return func(gCtx *gin.Context) {
-		jwtStr := gCtx.GetHeader("Authorization")
-		if !strings.HasPrefix(jwtStr, jwtPrefix) { // если нет префикса то нас дурят!
-			gCtx.AbortWithStatus(http.StatusForbidden) // отдаем что нет доступа
-
-			return // завершаем обработку
-		}
-
-		// отрезаем префикс
-		jwtStr = jwtStr[len(jwtPrefix):]
-		// проверяем jwt в блеклист редиса
-		err := h.Redis.CheckJWTInBlacklist(gCtx.Request.Context(), jwtStr)
-		if err == nil { // значит что токен в блеклисте
-			gCtx.AbortWithStatus(http.StatusForbidden)
-
-			return
-		}
-		if !errors.Is(err, redis.Nil) { // значит что это не ошибка отсуствия - внутренняя ошибка
-			gCtx.AbortWithError(http.StatusInternalServerError, err)
-
-			return
-		}
-
-		token, err := jwt.ParseWithClaims(jwtStr, &ds.JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-			return []byte(h.Config.JWT.Token), nil
-		})
+		claims, err := h.ParseAndValidateJWT(gCtx)
 		if err != nil {
 			gCtx.AbortWithStatus(http.StatusForbidden)
-			log.Println(err)
-
 			return
 		}
 
-		myClaims := token.Claims.(*ds.JWTClaims)
-
-		for _, oneOfAssignedRole := range assignedRoles {
-			if myClaims.Role == oneOfAssignedRole {
-				gCtx.Set("user_id", myClaims.UserID)
-				gCtx.Set("role", int(myClaims.Role))
+		// Проверка роли
+		for _, r := range assignedRoles {
+			if claims.Role == r {
+				gCtx.Set("user_id", claims.UserID)
+				gCtx.Set("role", int(claims.Role))
 				gCtx.Next()
 				return
 			}
 		}
+
+		log.Printf("role %v is not allowed (allowed: %v)", claims.Role, assignedRoles)
 		gCtx.AbortWithStatus(http.StatusForbidden)
-		log.Printf("role %s is not assigned in %s", myClaims.Role, assignedRoles)
-
-		return
-
 	}
-
 }
+
 
 func GetUserID(ctx *gin.Context) uint {
 	val, exists := ctx.Get("user_id")

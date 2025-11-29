@@ -27,9 +27,10 @@ export const getDataGrowthFactorsList = createAsyncThunk(
     const { dgf }: any = getState();
     try {
       const response = await api.api.dataGrowthFactorsList({title: dgf.searchValue, min_coeff: dgf.minCoeff, max_coeff: dgf.maxCoeff});
+      const growthRequestCartInfo = await api.api.growthRequestsCartList();
 
-      const app_id = response.data.draft_vacancy_application; // ID черновой заявки
-      const count = response.data.count; // количество услуг в черновой заявке
+      const app_id = growthRequestCartInfo.data.growth_request_id; // ID черновой заявки
+      const count = growthRequestCartInfo.data.service_count; // количество услуг в черновой заявке
 
       dispatch(setAppId(app_id));
       dispatch(setCount(count));
@@ -63,7 +64,7 @@ const citiesSlice = createSlice({
       .addCase(getDataGrowthFactorsList.fulfilled, (state, action) => {
         state.loading = false;
         state.dgf = action.payload;
-        console.log("dgf:", state.dgf)
+        // console.log("dgf:", state.dgf)
       })
       .addCase(getDataGrowthFactorsList.rejected, (state) => {
         state.loading = false;

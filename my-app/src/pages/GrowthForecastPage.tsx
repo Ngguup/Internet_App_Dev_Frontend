@@ -97,7 +97,7 @@ const GrowthForecastPage: FC = () => {
             <Button variant="outline-light" className="growth-request-img" onClick={() => {return 0;}}>{ grCart }</Button>
 
             <Button className="btn-favorites" onClick={() => handleClick(app_id? app_id : NaN)} disabled={(!isAuthenticated) || (!app_id)}>
-              <img src={favoriteImg} alt="Избранное" />
+              <img src={"./GrowthRequest.png"} alt="Избранное" />
               {(!isAuthenticated || !app_id) ? null : (
                   <span className="badge rounded-pill position-absolute">{count}</span>
               )}

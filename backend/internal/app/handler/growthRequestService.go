@@ -83,8 +83,17 @@ func FormatRequest(req ds.GrowthRequest) FormattedGrowthRequest {
 // @Failure 500 {object} map[string]string
 // @Router /api/growth-requests/cart [get]
 func (h *Handler) GetCartInfo(ctx *gin.Context) {
-	userRole := ctx.GetInt("role")
-	userID := GetUserID(ctx)
+	claims, err := h.ParseAndValidateJWT(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusOK, gin.H{
+			"growth_request_id": 0,
+			"service_count":     0,
+		})
+		return
+	}
+
+	userRole := claims.Role
+	userID := claims.UserID
 
 	switch role.Role(userRole) {
 	case role.Moderator:
@@ -119,11 +128,12 @@ func (h *Handler) GetCartInfo(ctx *gin.Context) {
 }
 
 // GetGrowthRequests godoc
-// @Summary Получить список заявок на рост
+// @Summary Получить список заявок на рост 2
 // @Description Возвращает все заявки с фильтрацией по статусу и дате
 // @Tags growth_requests
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param status query string false "Статус заявки"
 // @Param start_date query string false "Дата начала периода (формат: 02.01.06)"
 // @Param end_date query string false "Дата конца периода (формат: 02.01.06)"

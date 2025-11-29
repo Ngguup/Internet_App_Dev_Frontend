@@ -369,7 +369,9 @@ paths:
             additionalProperties:
               type: string
             type: object
-      summary: Получить список заявок на рост
+      security:
+      - BearerAuth: []
+      summary: Получить список заявок на рост 2
       tags:
       - growth_requests
   /api/growth-requests/{id}:
@@ -735,4 +737,9 @@ paths:
       - users
 schemes:
 - http
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

@@ -1,19 +1,21 @@
 import './BasicExample.css'
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { Button, NavLink } from 'react-bootstrap';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from '../../store';
 import { logoutUserAsync } from '../../slices/userSlice'; 
-import { setSearchValue, getCitiesList } from '../../slices/citiesSlice'; 
+import { setSearchValue, getDataGrowthFactorsList } from '../../slices/citiesSlice'; 
+import { ROUTES } from '../../Routes';
 
 function BasicExample() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated); // получение из стора значения флага состояния приложения
-  const username = useSelector((state: RootState) => state.user.username); // получение значения username из стора
+  const login = useSelector((state: RootState) => state.user.login); // получение значения username из стора
   // Обработчик события нажатия на кнопку "Выйти"
   const handleExit = async ()  => {
       await dispatch(logoutUserAsync());
@@ -22,7 +24,7 @@ function BasicExample() {
       
       navigate('/cities'); // переход на страницу списка услуг
 
-      await dispatch(getCitiesList()); // для показа очищения поля поиска
+      await dispatch(getDataGrowthFactorsList()); // для показа очищения поля поиска
   }
 
   return (
@@ -43,7 +45,7 @@ function BasicExample() {
                 </Button>
             )}
 
-            <NavLink to={/*Страница личного кабинета пользователя*/} className='nav__link'>{ username }</NavLink>       
+            {/* <NavLink to={Страница личного кабинета пользователя} className='nav__link'>{ username }</NavLink>        */}
       </Navbar>
     </header>
   );
