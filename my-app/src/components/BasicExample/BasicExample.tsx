@@ -30,8 +30,15 @@ function BasicExample() {
   return (
     <header>
       <Navbar expand="lg" className='header' fixed='top'>
-            <Navbar.Brand href="/Internet_App_Dev_Frontend/" className='center-btn'>Прогноз роста объема данных</Navbar.Brand>
-            <Nav.Link href="/Internet_App_Dev_Frontend/factors" className='nav-link-hidden'>Фаторы роста</Nav.Link>
+            {/* <Navbar.Brand href="/Internet_App_Dev_Frontend/" className='center-btn'>Прогноз роста объема данных</Navbar.Brand>
+            <Nav.Link href="/Internet_App_Dev_Frontend/factors" className='nav-link-hidden'>Фаторы роста</Nav.Link> */}
+            <Navbar.Brand as={Link} to={ROUTES.HOME} className='center-btn'>
+              Прогноз роста объема данных
+            </Navbar.Brand>
+
+            <Nav.Link as={Link} to={ROUTES.DATA_GROWTH_FACTORS} className='nav-link-hidden'>
+              Факторы роста
+            </Nav.Link>
 
             {(isAuthenticated == false ) && (
                 <Link to={ROUTES.LOGIN}>
