@@ -49,6 +49,7 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUserAsync.fulfilled, (state, action) => {
+        console.log(action.payload.response.access_token)
         api.setSecurityData(action.payload.response.access_token);
         state.login = action.payload.login;
         state.isAuthenticated = true;

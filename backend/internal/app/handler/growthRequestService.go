@@ -78,6 +78,7 @@ func FormatRequest(req ds.GrowthRequest) FormattedGrowthRequest {
 // @Description Возвращает данные о корзине в зависимости от роли (creator или moderator)
 // @Tags growth_requests
 // @Produce json
+// @Security BearerAuth
 // @Success 200 {object} map[string]interface{}
 // @Failure 403 "Forbidden"
 // @Failure 500 {object} map[string]string
@@ -208,6 +209,7 @@ func (h *Handler) GetGrowthRequests(ctx *gin.Context) {
 // @Description Возвращает заявку и связанные с ней факторы
 // @Tags growth_requests
 // @Produce json
+// @Security BearerAuth
 // @Param id path int true "ID заявки"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]string
@@ -236,6 +238,7 @@ func (h *Handler) GetGrowthRequestByID(ctx *gin.Context) {
 // @Tags growth_requests
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param id path int true "ID заявки"
 // @Param input body object true "Поля для обновления"
 // @Success 200 {object} FormattedGrowthRequest
@@ -282,6 +285,7 @@ func (h *Handler) UpdateGrowthRequest(ctx *gin.Context) {
 // @Description Изменяет статус черновика на "сформирован" при наличии всех обязательных полей
 // @Tags growth_requests
 // @Produce json
+// @Security BearerAuth
 // @Param id path int true "ID заявки"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]string
@@ -340,6 +344,7 @@ func (h *Handler) FormGrowthRequest(ctx *gin.Context) {
 // @Description Меняет статус заявки на завершен или отклонен
 // @Tags growth_requests
 // @Produce json
+// @Security BearerAuth
 // @Param id path int true "ID заявки"
 // @Param action query string true "Действие (complete или reject)"
 // @Success 200 {object} map[string]interface{}
@@ -404,6 +409,7 @@ func (h *Handler) CompleteOrRejectGrowthRequest(ctx *gin.Context) {
 // @Description Удаляет заявку пользователя
 // @Tags growth_requests
 // @Produce json
+// @Security BearerAuth
 // @Param id path int true "ID заявки"
 // @Success 200 {object} map[string]string
 // @Failure 400 {object} map[string]string

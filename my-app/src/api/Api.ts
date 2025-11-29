@@ -275,6 +275,7 @@ export class Api<
      * @name DataGrowthFactorsCreate
      * @summary Добавить услугу
      * @request POST:/api/data-growth-factors
+     * @secure
      */
     dataGrowthFactorsCreate: (
       data: DsDataGrowthFactor,
@@ -284,6 +285,7 @@ export class Api<
         path: `/api/data-growth-factors`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -312,6 +314,7 @@ export class Api<
      * @name DataGrowthFactorsUpdate
      * @summary Обновить услугу
      * @request PUT:/api/data-growth-factors/{id}
+     * @secure
      */
     dataGrowthFactorsUpdate: (
       id: number,
@@ -322,6 +325,7 @@ export class Api<
         path: `/api/data-growth-factors/${id}`,
         method: "PUT",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -334,11 +338,13 @@ export class Api<
      * @name DataGrowthFactorsDelete
      * @summary Удалить услугу
      * @request DELETE:/api/data-growth-factors/{id}
+     * @secure
      */
     dataGrowthFactorsDelete: (id: number, params: RequestParams = {}) =>
       this.request<Record<string, string>, Record<string, string>>({
         path: `/api/data-growth-factors/${id}`,
         method: "DELETE",
+        secure: true,
         ...params,
       }),
 
@@ -349,11 +355,13 @@ export class Api<
      * @name DataGrowthFactorsAddCreate
      * @summary Добавить услугу в заявку-черновик
      * @request POST:/api/data-growth-factors/{id}/add
+     * @secure
      */
     dataGrowthFactorsAddCreate: (id: number, params: RequestParams = {}) =>
       this.request<Record<string, string>, any>({
         path: `/api/data-growth-factors/${id}/add`,
         method: "POST",
+        secure: true,
         ...params,
       }),
 
@@ -364,6 +372,7 @@ export class Api<
      * @name DataGrowthFactorsImageCreate
      * @summary Загрузить изображение услуги
      * @request POST:/api/data-growth-factors/{id}/image
+     * @secure
      */
     dataGrowthFactorsImageCreate: (
       id: number,
@@ -377,6 +386,7 @@ export class Api<
         path: `/api/data-growth-factors/${id}/image`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.FormData,
         format: "json",
         ...params,
@@ -389,6 +399,7 @@ export class Api<
      * @name GrowthRequestDataGrowthFactorsUpdate
      * @summary Обновить значение factor_num
      * @request PUT:/api/growth-request-data-growth-factors/{id}
+     * @secure
      */
     growthRequestDataGrowthFactorsUpdate: (
       id: number,
@@ -399,6 +410,7 @@ export class Api<
         path: `/api/growth-request-data-growth-factors/${id}`,
         method: "PUT",
         body: body,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -411,6 +423,7 @@ export class Api<
      * @name GrowthRequestDataGrowthFactorsDelete
      * @summary Удалить фактор роста из черновика
      * @request DELETE:/api/growth-request-data-growth-factors/{id}
+     * @secure
      */
     growthRequestDataGrowthFactorsDelete: (
       id: number,
@@ -419,6 +432,7 @@ export class Api<
       this.request<Record<string, string>, Record<string, string>>({
         path: `/api/growth-request-data-growth-factors/${id}`,
         method: "DELETE",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -460,11 +474,13 @@ export class Api<
      * @name GrowthRequestsCartList
      * @summary Получение информации о корзине пользователя
      * @request GET:/api/growth-requests/cart
+     * @secure
      */
     growthRequestsCartList: (params: RequestParams = {}) =>
       this.request<Record<string, any>, void | Record<string, string>>({
         path: `/api/growth-requests/cart`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -476,11 +492,13 @@ export class Api<
      * @name GrowthRequestsDetail
      * @summary Получить заявку по ID
      * @request GET:/api/growth-requests/{id}
+     * @secure
      */
     growthRequestsDetail: (id: number, params: RequestParams = {}) =>
       this.request<Record<string, any>, Record<string, string>>({
         path: `/api/growth-requests/${id}`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -492,6 +510,7 @@ export class Api<
      * @name GrowthRequestsUpdate
      * @summary Обновить заявку на рост
      * @request PUT:/api/growth-requests/{id}
+     * @secure
      */
     growthRequestsUpdate: (
       id: number,
@@ -502,6 +521,7 @@ export class Api<
         path: `/api/growth-requests/${id}`,
         method: "PUT",
         body: input,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -514,11 +534,13 @@ export class Api<
      * @name GrowthRequestsDelete
      * @summary Удалить заявку на рост
      * @request DELETE:/api/growth-requests/{id}
+     * @secure
      */
     growthRequestsDelete: (id: number, params: RequestParams = {}) =>
       this.request<Record<string, string>, Record<string, string>>({
         path: `/api/growth-requests/${id}`,
         method: "DELETE",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -530,6 +552,7 @@ export class Api<
      * @name GrowthRequestsCompleteUpdate
      * @summary Завершить или отклонить заявку
      * @request PUT:/api/growth-requests/{id}/complete
+     * @secure
      */
     growthRequestsCompleteUpdate: (
       id: number,
@@ -543,6 +566,7 @@ export class Api<
         path: `/api/growth-requests/${id}/complete`,
         method: "PUT",
         query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -554,11 +578,13 @@ export class Api<
      * @name GrowthRequestsFormUpdate
      * @summary Сформировать заявку на рост
      * @request PUT:/api/growth-requests/{id}/form
+     * @secure
      */
     growthRequestsFormUpdate: (id: number, params: RequestParams = {}) =>
       this.request<Record<string, any>, Record<string, string>>({
         path: `/api/growth-requests/${id}/form`,
         method: "PUT",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -588,11 +614,13 @@ export class Api<
      * @name UsersLogoutCreate
      * @summary Выход пользователя
      * @request POST:/api/users/logout
+     * @secure
      */
     usersLogoutCreate: (params: RequestParams = {}) =>
       this.request<void, Record<string, string>>({
         path: `/api/users/logout`,
         method: "POST",
+        secure: true,
         ...params,
       }),
 
@@ -603,11 +631,13 @@ export class Api<
      * @name UsersMeList
      * @summary Получить текущего пользователя
      * @request GET:/api/users/me
+     * @secure
      */
     usersMeList: (params: RequestParams = {}) =>
       this.request<Record<string, any>, Record<string, string>>({
         path: `/api/users/me`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -619,12 +649,14 @@ export class Api<
      * @name UsersMeUpdate
      * @summary Обновить пользователя
      * @request PUT:/api/users/me
+     * @secure
      */
     usersMeUpdate: (body: object, params: RequestParams = {}) =>
       this.request<Record<string, string>, Record<string, string>>({
         path: `/api/users/me`,
         method: "PUT",
         body: body,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,

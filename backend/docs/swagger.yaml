@@ -126,6 +126,8 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/ds.DataGrowthFactor'
+      security:
+      - BearerAuth: []
       summary: Добавить услугу
       tags:
       - data_growth_factors
@@ -151,6 +153,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Удалить услугу
       tags:
       - data_growth_factors
@@ -202,6 +206,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: Обновить услугу
       tags:
       - data_growth_factors
@@ -222,6 +228,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Добавить услугу в заявку-черновик
       tags:
       - data_growth_factors
@@ -250,6 +258,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Загрузить изображение услуги
       tags:
       - data_growth_factors
@@ -283,6 +293,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Удалить фактор роста из черновика
       tags:
       - growth_request_data_growth_factors
@@ -324,6 +336,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Обновить значение factor_num
       tags:
       - growth_request_data_growth_factors
@@ -404,6 +418,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Удалить заявку на рост
       tags:
       - growth_requests
@@ -441,6 +457,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Получить заявку по ID
       tags:
       - growth_requests
@@ -479,6 +497,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Обновить заявку на рост
       tags:
       - growth_requests
@@ -516,6 +536,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Завершить или отклонить заявку
       tags:
       - growth_requests
@@ -555,6 +577,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Сформировать заявку на рост
       tags:
       - growth_requests
@@ -578,6 +602,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Получение информации о корзине пользователя
       tags:
       - growth_requests
@@ -637,6 +663,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Выход пользователя
       tags:
       - users
@@ -663,6 +691,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Получить текущего пользователя
       tags:
       - users
@@ -698,6 +728,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Обновить пользователя
       tags:
       - users

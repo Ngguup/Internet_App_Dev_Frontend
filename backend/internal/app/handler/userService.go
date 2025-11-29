@@ -25,6 +25,7 @@ import (
 // @Description Возвращает информацию о текущем пользователе
 // @Tags users
 // @Produce json
+// @Security BearerAuth
 // @Success 200 {object} map[string]interface{}
 // @Failure 404 {object} map[string]string
 // @Failure 500 {object} map[string]string
@@ -53,6 +54,7 @@ func (h *Handler) GetCurrentUser(ctx *gin.Context) {
 // @Tags users
 // @Accept json
 // @Produce json
+// @Security BearerAuth
 // @Param body body object true "Данные пользователя"
 // @Success 200 {object} map[string]string
 // @Failure 400 {object} map[string]string
@@ -221,6 +223,7 @@ func generateHashString(s string) string {
 // @Description Разлогинивает пользователя и добавляет JWT в черный список
 // @Tags users
 // @Produce json
+// @Security BearerAuth
 // @Success 200
 // @Failure 400 {object} map[string]string
 // @Failure 500 {object} map[string]string

@@ -99,6 +99,7 @@ func (h *Handler) GetDataGrowthFactorByID(ctx *gin.Context) {
 // @Tags         data_growth_factors
 // @Accept       json
 // @Produce      json
+// @Security BearerAuth
 // @Param        data  body  ds.DataGrowthFactor  true  "Данные новой услуги"
 // @Success      201  {object}  ds.DataGrowthFactor
 // @Router       /api/data-growth-factors [post]
@@ -133,6 +134,7 @@ func (h *Handler) CreateDataGrowthFactor(ctx *gin.Context) {
 // @Tags         data_growth_factors
 // @Accept       json
 // @Produce      json
+// @Security BearerAuth
 // @Param        id    path  int  true  "ID услуги"
 // @Param        data  body  ds.DataGrowthFactor  true  "Обновлённые данные"
 // @Success      200   {object}  map[string]interface{}
@@ -164,6 +166,7 @@ func (h *Handler) UpdateDataGrowthFactor(ctx *gin.Context) {
 // @Summary      Удалить услугу
 // @Description  Удаляет услугу (меняет флаг удаления или полностью удаляет запись)
 // @Tags         data_growth_factors
+// @Security BearerAuth
 // @Param        id   path  int  true  "ID услуги"
 // @Success      200  {object}  map[string]string  "DataGrowthFactor deleted successfully"
 // @Failure      404  {object}  map[string]string  "data_growth_factor not found"
@@ -193,6 +196,7 @@ func (h *Handler) DeleteDataGrowthFactor(ctx *gin.Context) {
 // @Summary      Добавить услугу в заявку-черновик
 // @Description  Добавляет выбранную услугу в текущую заявку пользователя со статусом "черновик"
 // @Tags         data_growth_factors
+// @Security BearerAuth
 // @Param        id   path  int  true  "ID услуги"
 // @Success      200  {object}  map[string]string  "DataGrowthFactor added to draft successfully"
 // @Router       /api/data-growth-factors/{id}/add [post]
@@ -218,6 +222,7 @@ func (h *Handler) AddDataGrowthFactorToDraft(ctx *gin.Context) {
 // @Tags         data_growth_factors
 // @Accept       multipart/form-data
 // @Produce      json
+// @Security BearerAuth
 // @Param        id     path      int     true   "ID услуги"
 // @Param        image  formData  file    true   "Изображение"
 // @Success      200    {object}  map[string]string  "image_url"

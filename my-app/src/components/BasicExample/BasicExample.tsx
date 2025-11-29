@@ -22,7 +22,7 @@ function BasicExample() {
 
       dispatch(setSearchValue('')); // можно реализовать в `extrareducers` у функции logoutUserAsynс
       
-      navigate('/cities'); // переход на страницу списка услуг
+      navigate('/factors'); // переход на страницу списка услуг
 
       await dispatch(getDataGrowthFactorsList()); // для показа очищения поля поиска
   }

@@ -61,6 +61,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Создаёт новую услугу (фактор роста)",
                 "consumes": [
                     "application/json"
@@ -131,6 +136,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Обновляет информацию об услуге (факторе роста)",
                 "consumes": [
                     "application/json"
@@ -171,6 +181,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Удаляет услугу (меняет флаг удаления или полностью удаляет запись)",
                 "tags": [
                     "data_growth_factors"
@@ -209,6 +224,11 @@ const docTemplate = `{
         },
         "/api/data-growth-factors/{id}/add": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Добавляет выбранную услугу в текущую заявку пользователя со статусом \"черновик\"",
                 "tags": [
                     "data_growth_factors"
@@ -238,6 +258,11 @@ const docTemplate = `{
         },
         "/api/data-growth-factors/{id}/image": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Загружает изображение в MinIO и сохраняет URL в базе данных",
                 "consumes": [
                     "multipart/form-data"
@@ -280,6 +305,11 @@ const docTemplate = `{
         },
         "/api/growth-request-data-growth-factors/{id}": {
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Обновляет числовое значение factor_num для DataGrowthFactor в корзине текущего пользователя",
                 "consumes": [
                     "application/json"
@@ -340,6 +370,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Удаляет DataGrowthFactor из черновика текущего пользователя",
                 "produces": [
                     "application/json"
@@ -463,6 +498,11 @@ const docTemplate = `{
         },
         "/api/growth-requests/cart": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Возвращает данные о корзине в зависимости от роли (creator или moderator)",
                 "produces": [
                     "application/json"
@@ -496,6 +536,11 @@ const docTemplate = `{
         },
         "/api/growth-requests/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Возвращает заявку и связанные с ней факторы",
                 "produces": [
                     "application/json"
@@ -551,6 +596,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Обновляет данные заявки (текущие данные, период)",
                 "consumes": [
                     "application/json"
@@ -608,6 +658,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Удаляет заявку пользователя",
                 "produces": [
                     "application/json"
@@ -658,6 +713,11 @@ const docTemplate = `{
         },
         "/api/growth-requests/{id}/complete": {
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Меняет статус заявки на завершен или отклонен",
                 "produces": [
                     "application/json"
@@ -713,6 +773,11 @@ const docTemplate = `{
         },
         "/api/growth-requests/{id}/form": {
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Изменяет статус черновика на \"сформирован\" при наличии всех обязательных полей",
                 "produces": [
                     "application/json"
@@ -825,6 +890,11 @@ const docTemplate = `{
         },
         "/api/users/logout": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Разлогинивает пользователя и добавляет JWT в черный список",
                 "produces": [
                     "application/json"
@@ -860,6 +930,11 @@ const docTemplate = `{
         },
         "/api/users/me": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Возвращает информацию о текущем пользователе",
                 "produces": [
                     "application/json"
@@ -897,6 +972,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Обновляет логин, пароль и роль текущего пользователя",
                 "consumes": [
                     "application/json"
