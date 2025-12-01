@@ -8,6 +8,7 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import LoginPage from "./pages/LoginPage/LoginPage"
 import UpdateUserPage from "./pages/UpdateUserPage/UpdateUserPage";
 import VacancyApplicationPage from "./pages/VacancyApplicationPage/VacancyApplicationPage"
+import GrowthRequestTablePage from "./pages/GrowthRequestTablePage/GrowthRequestTablePage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path={ROUTES.LOGIN} element={<LoginPage />} />
         <Route path={ROUTES.ACCOUNT} element={<UpdateUserPage />} />
         <Route path={`${ROUTES.VACANCYAPPLICATION}/:app_id`} element={<VacancyApplicationPage />} />
+        <Route path={ROUTES.GROWTH_REQUEST_TABLE} element={<GrowthRequestTablePage />} />
       </Routes>
     </BrowserRouter>
   );

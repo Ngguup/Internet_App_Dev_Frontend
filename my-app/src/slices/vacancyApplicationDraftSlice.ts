@@ -87,6 +87,28 @@ export const deleteCityFromVacancyApplication = createAsyncThunk(
   }
 );
 
+// export const formVacancyApplication = createAsyncThunk(
+//   'vacancyApplication/formVacancyApplication',
+//   async (appId: number) => {
+//     const response = await api.api.growthRequestsFormUpdate(appId);
+//     return response.data;
+//   }
+// );
+
+export const formVacancyApplication = createAsyncThunk(
+  'vacancyApplication/formVacancyApplication',
+  async (appId: number, { rejectWithValue }) => {
+    try {
+      const response = await api.api.growthRequestsFormUpdate(appId);
+      return response.data;
+    } catch (err: any) {
+      // если бэк возвращает JSON с ошибкой
+      const message = err.response?.data?.error || 'Ошибка при формировании вакансии';
+      return rejectWithValue(message);
+    }
+  }
+);
+
 
 const vacancyApplicationDraftSlice = createSlice({
   name: 'vacancyApplicationDraft',
@@ -154,6 +176,23 @@ const vacancyApplicationDraftSlice = createSlice({
         })
         .addCase(updateVacancyApplication.rejected, (state) => {
             state.error = 'Ошибка при обновлении данных';
+        })
+
+        .addCase(formVacancyApplication.fulfilled, (state) => {
+            state.app_id = NaN;
+            state.count = NaN;
+            state.factors = [];
+            state.growth_request = {
+                CurData: NaN,
+                StartPeriod: '',
+                EndPeriod: ''
+            };
+        })
+        // .addCase(formVacancyApplication.rejected, (state) => {
+        //     state.error = 'Ошибка при формировании вакансии';
+        // })
+        .addCase(formVacancyApplication.rejected, (state, action) => {
+          state.error = action.payload as string || 'Ошибка при формировании вакансии';
         })
   }
 });

@@ -40,6 +40,12 @@ function BasicExample() {
               Факторы роста
             </Nav.Link>
 
+            {(isAuthenticated == true) && (
+              <Nav.Link as={Link} to={ROUTES.GROWTH_REQUEST_TABLE} className='nav-link-hidden'>
+                Таблица заявок
+              </Nav.Link>
+            )}
+
             {(isAuthenticated == false ) && (
                 <Link to={ROUTES.REGISTER}>
                     <Button className="login-btn">Зарегистрироваться</Button>

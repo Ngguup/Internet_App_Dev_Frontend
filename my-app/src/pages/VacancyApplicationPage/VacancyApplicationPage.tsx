@@ -14,7 +14,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { getVacancyApplication, } from '../../slices/vacancyApplicationDraftSlice';
-import { deleteVacancyApplication, setError } from '../../slices/vacancyApplicationDraftSlice';
+import { deleteVacancyApplication, formVacancyApplication, setError } from '../../slices/vacancyApplicationDraftSlice';
 
 import { setVacancyData } from '../../slices/vacancyApplicationDraftSlice';
 import { updateVacancyApplication } from '../../slices/vacancyApplicationDraftSlice';
@@ -79,6 +79,18 @@ const VacancyApplicationPage: FC = () => {
       }
     }
   }
+
+  const handleForm = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (app_id) {
+      try {
+        await dispatch(formVacancyApplication(app_id_num)).unwrap();
+      navigate(ROUTES.DATA_GROWTH_FACTORS);
+      } catch (error) {
+        dispatch(setError(error));
+      }
+    }
+  };
 
   return (
     <div>
@@ -172,9 +184,14 @@ const VacancyApplicationPage: FC = () => {
 
         {/* ??? */}
         {(isDraft) && (
+          <div>
+            <Button className="save-button" onClick={handleForm}>
+                Сформировать
+            </Button>
             <Button className="save-button" onClick={handleDelete}>
                 Очистить
             </Button>
+          </div>
         )}
       </div>
     </div>

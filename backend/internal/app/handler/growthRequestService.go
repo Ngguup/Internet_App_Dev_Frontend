@@ -189,13 +189,13 @@ func (h *Handler) GetGrowthRequests(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, requests)
 		return
 	case role.Creator:
+		creatorRequests := make([]map[string]interface{}, 0)
 		for _, req := range requests {
 			if req["creator_id"] == userID {
-				ctx.JSON(http.StatusOK, req)
-				return
+				creatorRequests = append(creatorRequests, req)
 			}
 		}
-		ctx.JSON(http.StatusOK, struct{}{})
+		ctx.JSON(http.StatusOK, creatorRequests)
 		return
 	default:
 		ctx.AbortWithStatus(http.StatusForbidden)
