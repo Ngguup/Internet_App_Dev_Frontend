@@ -7,6 +7,7 @@ import { ROUTE_LABELS } from '../../Routes';
 import default_image from "/DefaultImage.jpg";
 import { DataGrowthFactorCard } from "../../components/DataGrowthFactorCard/DataGrowthFactorCard";
 import BasicExample from "../../components/BasicExample/BasicExample";
+import { BreadCrumbs } from "../../components/BreadCrumbs/BreadCrumbs";
 
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -93,106 +94,114 @@ const VacancyApplicationPage: FC = () => {
   };
 
   return (
-    <div>
+    <div className="growth-request-page">
       <BasicExample />
-      <div className="container-2">  
-        <div className="fav-content">
-          {error && <Alert variant="danger" style={{ width: '15vw'}}>{error}</Alert>}
-          <Row>
-              <Col md={8} xs={8}>
-                <h1>Вакансия</h1>
-              </Col>
-              <Col md={4} xs={4}>
-                <Image src={default_image}></Image>
-              </Col>
-          </Row>
-          {(!isDraft) ? (
-            <div>
-                <h4>Название вакансии: {growth_request.CurData}</h4>
-                <h4>Обязанности: {growth_request.StartPeriod}</h4>
-                <h4>Требования: {growth_request.EndPeriod}</h4>
-            </div>
-            ) : (
-            <div>
-                <Form.Group controlId="CurData">
-                <h4>Название вакансии</h4>
-                <Form.Control
-                    type="text"
-                    name="CurData"
-                    value={growth_request.CurData ?? ''}
-                    onChange={handleInputChange}
-                    required
-                    // disabled={!isDraft}
-                />
-                </Form.Group>
-
-                <Form.Group controlId="StartPeriod">
-                <h4>Обязанности</h4>
-                <Form.Control
-                    as="textarea"
-                    name="StartPeriod"
-                    value={growth_request.StartPeriod ?? ''}
-                    onChange={handleInputChange}
-                    rows={4}
-                    required
-                    // disabled={!isDraft}
-                />
-                </Form.Group>
-
-                <Form.Group controlId="EndPeriod">
-                <h4>Требования</h4>
-                <Form.Control
-                    as="textarea"
-                    name="EndPeriod"
-                    value={growth_request.EndPeriod ?? ''} 
-                    onChange={handleInputChange}
-                    rows={4}
-                    required
-                    // disabled={!isDraft}
-                />
-                </Form.Group>
-
-                <Button type="submit" className="save-button" onClick={handleSaveVacancy}>
-                    Сохранить
-                </Button>
-            </div>
-            )}
-          <h1>Выбранные города для размещения Вашей вакансии</h1>
-          <div className="cards-wrapper-2 d-flex flex-column">
-            {factors.length ? (
-              factors.map((item) => (
-                <Col key={item.ID}>
-                  <DataGrowthFactorCard
-                    id={item.ID}
-                    image={item.Image}
-                    title={item.Attribute}
-                    coeff={item.Coeff}
-                    imageClickHandler={() => handleCardClick(item.ID)}
-                    factors={factors}
-                    app_id={app_id}
-                    isDraft={isDraft}
-                  />
-                </Col>
-              ))
-            ) : (
-              <section className="cities-not-found">
-                <h1>К сожалению, пока ничего не найдено :(</h1>
-              </section>
-            )}
+      <div className="growth-request-list">
+        {(!isDraft) ? (
+        <div className="result-data-growth-factor-card">
+          <div className="aligned-text-hor">
+              <p>Прогноз роста объема данных на основе выбранных параметров:</p>
+              <p className="result">?</p>
           </div>
+          <p>Текущее количество данных: { growth_request.CurData }</p>
+          <p>Начало периода: { growth_request.StartPeriod }</p>
+          <p>Конец периода: { growth_request.EndPeriod }</p>
         </div>
-
-        {/* ??? */}
+        ) : (
+        <div className="result-data-growth-factor-card">
+            <div className="aligned-text-hor">
+                <p>Прогноз роста объема данных на основе выбранных параметров:</p>
+                <p className="result">?</p>
+            </div>
+            {/* <div className="aligned-text-hor">
+                <p>Текущее количество данных (б):</p>
+                <p className="input">{ growth_request.CurData }</p>
+            </div> */}
+            <Form.Group controlId="CurData" className="aligned-text-hor">
+              <p>Текущее количество данных:</p>
+              <Form.Control
+                  className="input ms-2"
+                  type="text"
+                  name="CurData"
+                  value={growth_request.CurData ?? ''}
+                  onChange={handleInputChange}
+                  required
+                  // disabled={!isDraft}
+              />
+            </Form.Group>
+            <Form.Group controlId="StartPeriod" className="aligned-text-hor">
+              <p>Начало периода:</p>
+              <Form.Control
+                  className="input ms-2"
+                  type="text"
+                  name="StartPeriod"
+                  value={growth_request.StartPeriod ?? ''}
+                  onChange={handleInputChange}
+                  required
+                  // disabled={!isDraft}
+              />
+            </Form.Group>
+            <Form.Group controlId="EndPeriod" className="aligned-text-hor">
+              <p>Конец периода:</p>
+              <Form.Control
+                  className="input ms-2"
+                  type="text"
+                  name="EndPeriod"
+                  value={growth_request.EndPeriod ?? ''}
+                  onChange={handleInputChange}
+                  required
+                  // disabled={!isDraft}
+              />
+            </Form.Group>
+          
+        </div>
+        )}
         {(isDraft) && (
+        <Button type="submit" className="delete-btn" onClick={handleSaveVacancy}>Сохранить прогноз</Button>
+        )}
+        {/* {{ range $i, $factor := .dataGrowthFactors }}
+        <div class="data-growth-factor-card">
+            <div class="aligned-text-hor">
+                <p>{{ $factor.Attribute }}:</p> <p class="input">{{ index $.factorNums $i }}</p>
+            </div>
+
+            <div class="data-growth-factor-card-field">
+                <img class="data-growth-factor-card-img" src="{{ $factor.Image }}" alt="Изображние">
+                <p>Коэффициент: {{ $factor.Coeff }}</p>
+            </div>
+        </div>
+        {{ end }} */}
+        {factors.length ? (
+          factors.map((item) => (
+            <Col key={item.ID}>
+              <DataGrowthFactorCard
+                id={item.ID}
+                image={item.Image}
+                title={item.Attribute}
+                coeff={item.Coeff}
+                factorNum={item.FactorNum}
+                imageClickHandler={() => handleCardClick(item.ID)}
+                factors={factors}
+                app_id={app_id}
+                isDraft={isDraft}
+              />
+            </Col>
+          ))
+        ) : (
+          <section className="cities-not-found">
+            <h1>К сожалению, пока ничего не найдено :(</h1>
+          </section>
+      )}
+      {(isDraft) && (
           <div>
-            <Button className="save-button" onClick={handleForm}>
+            <Button className="delete-btn" onClick={handleForm}>
                 Сформировать
             </Button>
-            <Button className="save-button" onClick={handleDelete}>
+            <Button className="delete-btn ms-2" onClick={handleDelete}>
                 Очистить
             </Button>
           </div>
-        )}
+      )}
       </div>
     </div>
   );

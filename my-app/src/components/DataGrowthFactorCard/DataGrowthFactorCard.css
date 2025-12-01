@@ -27,3 +27,76 @@
 .cardButton {
     width: 100%;
 }
+
+
+
+
+.data-growth-factor-card {
+    /* width: 1042px;
+    height: 150px; */
+    padding: 15px 30px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    flex-shrink: 0;
+    display: flex;             
+    flex-direction: column;       
+    position: relative; 
+    justify-content: space-between; 
+}
+
+
+.data-growth-factor-card-field {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+
+ .data-growth-factor-card-img {
+    width: 100px;
+    height: 100px;          
+    object-fit: cover;      
+}
+
+.aligned-text-hor {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.input {
+    width: 98px;
+    height: 34px;
+    margin: 0 5px;
+    border: 1px solid #D8D8D8;
+    border-radius: 10px;
+    display: flex;                
+    align-items: center;          
+    justify-content: center;      
+}
+
+.data-growth-factor-list {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+p {
+    margin: 0 !important;
+    font-size: 16px;
+    color: #333333;
+}
+
+.delete-factor-btn {
+    position: absolute;
+    top: 20px;     /* отступ от верхнего края карточки */
+    right: 15px;   /* отступ от правого края */
+    width: 20px;
+    height: 20px;
+
+    background: url("/Trash.png") center/20px no-repeat transparent; 
+    border: none;
+    cursor: pointer;
+}

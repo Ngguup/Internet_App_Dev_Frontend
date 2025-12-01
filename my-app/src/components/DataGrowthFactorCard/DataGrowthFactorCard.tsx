@@ -22,13 +22,14 @@ import { DataGrowthFactor } from '../../slices/vacancyApplicationDraftSlice';
 // }
 interface Props extends DsDataGrowthFactor {
     imageClickHandler: () => void
+    factorNum?: number
     factors?: DataGrowthFactor[]
     app_id?: string
     isDraft?: boolean;
 }
 
 
-export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, imageClickHandler, factors, app_id, isDraft}) => {
+export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, imageClickHandler, factorNum, factors, app_id, isDraft}) => {
     const { pathname } = useLocation();
     const dispatch = useDispatch<AppDispatch>();
     const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
@@ -41,7 +42,7 @@ export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, image
         }
     }
 
-    const handleDeleteCity = async () => {
+    const handleDelete = async () => {
         if (id && app_id) {
             await dispatch(deleteCityFromVacancyApplication(id));
             dispatch(setCities(factors!.filter(factor => factor.ID !== id)));
@@ -66,49 +67,63 @@ export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, image
 
     if (pathname.includes("/vacancy_application")) {
         return (
-            <div className="fav-card">
+            <div className="data-growth-factor-card">
+                <div className="aligned-text-hor">
+                    <p>{ title }:</p> <p className="input ms-2">{ factorNum }</p>
+                </div>
+
+                <div className="data-growth-factor-card-field">
+                    <img className="data-growth-factor-card-img" src={image || default_image} alt={title}/>
+                    <p>Коэффициент: { coeff }</p>
+                </div>
+
                 {(isDraft) && (
-                    <Button className="fav-btn-open" onClick={() => handleDeleteCity()}>
-                        Удалить
-                    </Button>
+                    <button className="delete-factor-btn" onClick={handleDelete}></button>
                 )}
-                <Row>
-                    <Col xs={2} sm={2} md={2}>
-                        <div className="d-flex justify-center">
-                            <img src={image || default_image} alt={title} />
-                        </div>
-                    </Col>
-                    <Col xs={10} sm={10} md={10}>
-                        <div className="fav-card-body">
-                            <h5>{title}</h5>
-                            <div className="form-group">
-                                <Row>
-                                    <Col xs={3} sm={3} md={3}>
-                                        <label className="form-label">Количество вакансий: </label>
-                                    </Col>
-                                    <Col xs={9} sm={9} md={9}>
-                                        <input
-                                            type="number"
-                                            className="localcount"
-                                            value={0}
-                                            disabled
-                                        />
-                                    </Col>
-                                </Row>
-                            </div>
-                            <Row>
-                                <Col md={3} xs={3}>
-                                    <a onClick={() => imageClickHandler()} className="fav-btn-open">
-                                        Подробнее
-                                    </a>
-                                </Col>
-                                <Col md={3} xs={3}>
-                                </Col>
-                            </Row>
-                        </div>
-                    </Col>
-                </Row>
             </div>
+            //   <div className="fav-card">
+            //     {(isDraft) && (
+            //         <Button className="fav-btn-open" onClick={() => handleDeleteCity()}>
+            //             Удалить
+            //         </Button>
+            //     )}
+            //     <Row>
+            //         <Col xs={2} sm={2} md={2}>
+            //             <div className="d-flex justify-center">
+            //                 <img src={image || default_image} alt={title} />
+            //             </div>
+            //         </Col>
+            //         <Col xs={10} sm={10} md={10}>
+            //             <div className="fav-card-body">
+            //                 <h5>{title}</h5>
+            //                 <div className="form-group">
+            //                     <Row>
+            //                         <Col xs={3} sm={3} md={3}>
+            //                             <label className="form-label">Количество вакансий: </label>
+            //                         </Col>
+            //                         <Col xs={9} sm={9} md={9}>
+            //                             <input
+            //                                 type="number"
+            //                                 className="localcount"
+            //                                 value={0}
+            //                                 disabled
+            //                             />
+            //                         </Col>
+            //                     </Row>
+            //                 </div>
+            //                 <Row>
+            //                     <Col md={3} xs={3}>
+            //                         <a onClick={() => imageClickHandler()} className="fav-btn-open">
+            //                             Подробнее
+            //                         </a>
+            //                     </Col>
+            //                     <Col md={3} xs={3}>
+            //                     </Col>
+            //                 </Row>
+            //             </div>
+            //         </Col>
+            //     </Row>
+            // </div>
         );
     }
 };
