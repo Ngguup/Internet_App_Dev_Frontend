@@ -56,7 +56,7 @@ export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, image
                 <Card.Text className='textStyle text-center'>Коэффициент: {coeff}</Card.Text>
                 {/* <Button className="cardButton" target="_blank" variant="outline-secondary">Добавить в заявку</Button> */}
                 {(isAuthenticated == true ) && (
-                    <Button className="city-btn" onClick={() => handleAdd() }>
+                    <Button className="cardButton" variant="outline-secondary" onClick={() => handleAdd() }>
                         Добавить
                     </Button>
                 )}

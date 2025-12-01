@@ -5,8 +5,9 @@ import { AppDispatch, RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
 
 import { getGrowthRequestsList } from "../../slices/growthRequestTableSlice";
-import { ROUTES } from "../../Routes";
+import { ROUTES, ROUTE_LABELS } from "../../Routes";
 import BasicExample from "../../components/BasicExample/BasicExample";
+import { BreadCrumbs } from "../../components/BreadCrumbs/BreadCrumbs";
 import "./GrowthRequestTablePage.css";
 
 const GrowthRequestTablePage: FC = () => {
@@ -36,6 +37,12 @@ const GrowthRequestTablePage: FC = () => {
   return (
     <div>
       <BasicExample />
+      <BreadCrumbs
+        crumbs={[
+          { label: ROUTE_LABELS.DATA_GROWTH_FACTORS, path: ROUTES.DATA_GROWTH_FACTORS },
+          { label: ROUTE_LABELS.GROWTH_REQUEST_TABLE },
+        ]}
+      />
       <div className="container mt-5 pt-5">
 
         <h2 className="mb-4 mt-5">Таблица заявок на расчёт роста объёма данных</h2>

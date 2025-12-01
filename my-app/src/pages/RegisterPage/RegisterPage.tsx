@@ -6,7 +6,8 @@ import { registerUserAsync } from '../../slices/userSlice';
 import { useNavigate } from "react-router-dom";
 // import Header from "../../components/Header/Header";
 import BasicExample from '../../components/BasicExample/BasicExample';
-import { ROUTES } from '../../Routes';
+import { ROUTES, ROUTE_LABELS } from '../../Routes';
+import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs';
 
 const RegisterPage: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -32,18 +33,24 @@ const RegisterPage: React.FC = () => {
     return (
         <Container style={{ maxWidth: '100%', marginTop: '0' }}> 
             <BasicExample/>
-            <Container style={{ maxWidth: '400px', marginTop: '150px' }}>
-                <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Рады снова Вас видеть!</h2>
+            <BreadCrumbs
+                crumbs={[
+                    { label: ROUTE_LABELS.DATA_GROWTH_FACTORS, path: ROUTES.DATA_GROWTH_FACTORS },
+                    { label: ROUTE_LABELS.REGISTER },
+                ]}
+            />
+            <Container style={{ maxWidth: '400px', marginTop: '50px' }}>
+                <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Регистрация</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="login" style={{ marginBottom: '15px' }}>
-                        <Form.Label>Имя пользователя</Form.Label>
+                        <Form.Label>Логин</Form.Label>
                         <Form.Control
                             type="text"
                             name="login"
                             value={formData.login}
                             onChange={handleChange}
-                            placeholder="Введите имя пользователя"
+                            placeholder="Введите логин"
                         />
                     </Form.Group>
                     <Form.Group controlId="password" style={{ marginBottom: '20px' }}>
@@ -56,8 +63,8 @@ const RegisterPage: React.FC = () => {
                             placeholder="Введите пароль"
                         />
                     </Form.Group>
-                    <Button variant="primary" type="submit" style={{ width: '100%' }}>
-                        Регистрация
+                    <Button variant="outline-secondary" type="submit" style={{ width: '100%' }}>
+                        Зарегистрировать
                     </Button>
                 </Form>
             </Container>

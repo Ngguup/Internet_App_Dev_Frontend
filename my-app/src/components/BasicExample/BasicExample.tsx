@@ -46,30 +46,32 @@ function BasicExample() {
               </Nav.Link>
             )}
 
+            <div className="func-btn">
             {(isAuthenticated == false ) && (
                 <Link to={ROUTES.REGISTER}>
-                    <Button className="login-btn">Зарегистрироваться</Button>
+                    <Button variant="outline-secondary" className="me-2">Зарегистрироваться</Button>
                 </Link>
             )}
 
             {(isAuthenticated == false ) && (
                 <Link to={ROUTES.LOGIN}>
-                    <Button className="login-btn">Войти</Button>
+                    <Button variant="outline-secondary">Войти</Button>
                 </Link>
             )}
 
 
             {(isAuthenticated == true) && (
                 <Link to={ROUTES.ACCOUNT}>
-                    <Button className="login-btn">{ login }</Button>
+                    <Button variant="outline-secondary" className="me-2">{ login }</Button>
                 </Link>
             )}
 
             {(isAuthenticated == true) && (
-                <Button variant="primary" type="submit" className="login-btn" onClick={ handleExit }>
+                <Button variant="outline-secondary" type="submit" onClick={ handleExit }>
                     Выйти
                 </Button>
             )}
+            </div>
 
             {/* <NavLink to={Страница личного кабинета пользователя} className='nav__link'>{ username }</NavLink>        */}
       </Navbar>

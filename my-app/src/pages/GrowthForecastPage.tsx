@@ -94,14 +94,22 @@ const GrowthForecastPage: FC = () => {
           </div>
         ) : (
           <div className="growth-forecast-page">
-            <Button variant="outline-light" className="growth-request-img" onClick={() => {return 0;}}>{ count }</Button>
+            <Button 
+            variant="outline-light" 
+            className="growth-request-img" 
+            onClick={() => handleClick(app_id? app_id : NaN)}
+            disabled={(!isAuthenticated) || (!app_id)}
+            >
+              { (!isAuthenticated || !app_id) ? null : count }
+            </Button>
+            
 
-            <Button className="btn-favorites" onClick={() => handleClick(app_id? app_id : NaN)} disabled={(!isAuthenticated) || (!app_id)}>
+            {/* <Button className="btn-favorites" onClick={() => handleClick(app_id? app_id : NaN)} disabled={(!isAuthenticated) || (!app_id)}>
               <img src={"./GrowthRequest.png"} alt="Избранное" />
               {(!isAuthenticated || !app_id) ? null : (
                   <span className="badge rounded-pill position-absolute">{count}</span>
               )}
-            </Button>
+            </Button> */}
             {/* <InputField
               value={searchValue}
               setValue={(value) => setSearchValue(value)}
