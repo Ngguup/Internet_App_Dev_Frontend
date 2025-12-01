@@ -41,8 +41,21 @@ function BasicExample() {
             </Nav.Link>
 
             {(isAuthenticated == false ) && (
+                <Link to={ROUTES.REGISTER}>
+                    <Button className="login-btn">Зарегистрироваться</Button>
+                </Link>
+            )}
+
+            {(isAuthenticated == false ) && (
                 <Link to={ROUTES.LOGIN}>
                     <Button className="login-btn">Войти</Button>
+                </Link>
+            )}
+
+
+            {(isAuthenticated == true) && (
+                <Link to={ROUTES.ACCOUNT}>
+                    <Button className="login-btn">{ login }</Button>
                 </Link>
             )}
 

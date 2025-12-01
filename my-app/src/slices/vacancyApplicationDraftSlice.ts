@@ -71,7 +71,7 @@ export const updateVacancyApplication = createAsyncThunk(
   'vacancyApplication/updateVacancyApplication',
   async ({ appId, growthRequestData }: { appId: number; growthRequestData: GrowthRequestData }) => {
     const growthRequestDataToSend = {
-      cur_data: growthRequestData.CurData ?? '', 
+      cur_data: Number(growthRequestData.CurData) || 0, 
       start_period: growthRequestData.StartPeriod ?? '',
       end_period: growthRequestData.EndPeriod ?? ''
     };

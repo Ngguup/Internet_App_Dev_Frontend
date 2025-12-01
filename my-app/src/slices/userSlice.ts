@@ -39,6 +39,30 @@ export const logoutUserAsync = createAsyncThunk(
   }
 );
 
+export const updateUserAsync = createAsyncThunk(
+  'user/updateUserAsync',
+  async (updateData: { login: string; password: string }, { rejectWithValue }) => {
+    try {
+      await api.api.usersMeUpdate(updateData);
+      return {"login": updateData.login}; 
+    } catch (error) {
+      return rejectWithValue('Ошибка редактирования'); // Возвращаем ошибку в случае неудачи
+    }
+  }
+);
+
+export const registerUserAsync = createAsyncThunk(
+  'user/registerUserAsync',
+  async (credentials: { login: string; password: string }, { rejectWithValue }) => {
+    try {
+      await api.api.usersRegisterCreate(credentials);
+      return; 
+    } catch (error) {
+      return rejectWithValue('Ошибка регистрации'); // Возвращаем ошибку в случае неудачи
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -68,7 +92,22 @@ const userSlice = createSlice({
       })
       .addCase(logoutUserAsync.rejected, (state, action) => {
         state.error = action.payload as string;
-      });      
+      })  
+
+      .addCase(updateUserAsync.fulfilled, (state, action) => {
+        state.login = action.payload.login;
+        state.error = null;
+      })
+      .addCase(updateUserAsync.rejected, (state, action) => {
+        state.error = action.payload as string;
+      })    
+
+      .addCase(registerUserAsync.fulfilled, (state) => {
+        state.error = null;
+      })
+      .addCase(registerUserAsync.rejected, (state, action) => {
+        state.error = action.payload as string;
+      })
   },
 });
 

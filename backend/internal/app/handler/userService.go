@@ -72,7 +72,7 @@ func (h *Handler) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	if err := h.Repository.UpdateUser(GetUserID(ctx), input.Login, input.Password, input.Role); err != nil {
+	if err := h.Repository.UpdateUser(GetUserID(ctx), input.Login, generateHashString(input.Password), input.Role); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

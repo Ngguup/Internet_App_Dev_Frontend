@@ -102,41 +102,41 @@ const VacancyApplicationPage: FC = () => {
             </div>
             ) : (
             <div>
-                <Form.Group controlId="vacancy_name">
+                <Form.Group controlId="CurData">
                 <h4>Название вакансии</h4>
                 <Form.Control
                     type="text"
-                    name="vacancy_name"
-                    value={growth_request.CurData ?? NaN}
+                    name="CurData"
+                    value={growth_request.CurData ?? ''}
                     onChange={handleInputChange}
                     required
-                    disabled={!isDraft}
+                    // disabled={!isDraft}
                 />
                 </Form.Group>
 
-                <Form.Group controlId="vacancy_responsibilities">
+                <Form.Group controlId="StartPeriod">
                 <h4>Обязанности</h4>
                 <Form.Control
                     as="textarea"
-                    name="vacancy_responsibilities"
+                    name="StartPeriod"
                     value={growth_request.StartPeriod ?? ''}
                     onChange={handleInputChange}
                     rows={4}
                     required
-                    disabled={!isDraft}
+                    // disabled={!isDraft}
                 />
                 </Form.Group>
 
-                <Form.Group controlId="vacancy_requirements">
+                <Form.Group controlId="EndPeriod">
                 <h4>Требования</h4>
                 <Form.Control
                     as="textarea"
-                    name="vacancy_requirements"
+                    name="EndPeriod"
                     value={growth_request.EndPeriod ?? ''} 
                     onChange={handleInputChange}
                     rows={4}
                     required
-                    disabled={!isDraft}
+                    // disabled={!isDraft}
                 />
                 </Form.Group>
 
