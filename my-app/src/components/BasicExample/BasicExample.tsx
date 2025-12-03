@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from '../../store';
 import { logoutUserAsync } from '../../slices/userSlice'; 
-import { setSearchValue, getDataGrowthFactorsList } from '../../slices/citiesSlice'; 
+import { setSearchValue, getDataGrowthFactorsList } from '../../slices/factorsSlice'; 
 import { ROUTES } from '../../Routes';
 
 function BasicExample() {

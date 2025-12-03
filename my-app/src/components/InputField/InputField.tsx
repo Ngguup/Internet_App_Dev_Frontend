@@ -1,11 +1,11 @@
 import { FC } from 'react'
 import { Button } from 'react-bootstrap'
 import './InputField.css'
-import { setSearchValue, setMinCoeff, setMaxCoeff } from '../../slices/citiesSlice'
+import { setSearchValue, setMinCoeff, setMaxCoeff } from '../../slices/factorsSlice'
 
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store";
-import { getDataGrowthFactorsList } from '../../slices/citiesSlice';
+import { getDataGrowthFactorsList } from '../../slices/factorsSlice';
 
 interface Props {
     searchValue: string

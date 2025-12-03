@@ -6,12 +6,12 @@ import { DsDataGrowthFactor } from '../../api/Api';
 
 import { useLocation } from 'react-router-dom';
 
-import { addCityToVacancyApplication, } from '../../slices/vacancyApplicationDraftSlice';
-import { getDataGrowthFactorsList } from '../../slices/citiesSlice';
+import { addCityToGrowthRequest, } from '../../slices/growthRequestDraftSlice';
+import { getDataGrowthFactorsList } from '../../slices/factorsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
-import { deleteCityFromVacancyApplication, setCities } from '../../slices/vacancyApplicationDraftSlice';
-import { DataGrowthFactor } from '../../slices/vacancyApplicationDraftSlice';
+import { deleteCityFromGrowthRequest, setFactors } from '../../slices/growthRequestDraftSlice';
+import { DataGrowthFactor } from '../../slices/growthRequestDraftSlice';
 
 // interface Props {
 //     image: string
@@ -37,15 +37,15 @@ export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, image
     // Обработчик события нажатия на кнопку "Добавить"
     const handleAdd = async () => {
         if (id) {
-            await dispatch(addCityToVacancyApplication(id!));
+            await dispatch(addCityToGrowthRequest(id!));
             await dispatch(getDataGrowthFactorsList()); // Для обновления отображения состояния иконки "корзины" 
         }
     }
 
     const handleDelete = async () => {
         if (id && app_id) {
-            await dispatch(deleteCityFromVacancyApplication(id));
-            dispatch(setCities(factors!.filter(factor => factor.ID !== id)));
+            await dispatch(deleteCityFromGrowthRequest(id));
+            dispatch(setFactors(factors!.filter(factor => factor.ID !== id)));
         }
     }
     

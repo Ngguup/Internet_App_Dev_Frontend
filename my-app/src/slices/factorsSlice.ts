@@ -3,7 +3,7 @@ import { api } from '../api';
 import { DsDataGrowthFactor } from '../api/Api';
 import { DATA_GROWTH_FACTORS_MOCK } from "../modules/mock"; // мок-данные
 
-import { setAppId, setCount } from './vacancyApplicationDraftSlice';
+import { setAppId, setCount } from './growthRequestDraftSlice';
 
 interface DataGrowthFactorsState {
   searchValue: string;
@@ -42,7 +42,7 @@ export const getDataGrowthFactorsList = createAsyncThunk(
   }
 );
 
-const citiesSlice = createSlice({
+const factorsSlice = createSlice({
   name: 'dgf',
   initialState,
   reducers: {
@@ -85,8 +85,8 @@ const citiesSlice = createSlice({
   },
 });
 
-export const { setSearchValue } = citiesSlice.actions;
-export const { setMinCoeff } = citiesSlice.actions;
-export const { setMaxCoeff } = citiesSlice.actions;
+export const { setSearchValue } = factorsSlice.actions;
+export const { setMinCoeff } = factorsSlice.actions;
+export const { setMaxCoeff } = factorsSlice.actions;
 
-export default citiesSlice.reducer;
+export default factorsSlice.reducer;

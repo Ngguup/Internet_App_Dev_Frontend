@@ -7,7 +7,7 @@ import { dest_root } from "../target_config";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import LoginPage from "./pages/LoginPage/LoginPage"
 import UpdateUserPage from "./pages/UpdateUserPage/UpdateUserPage";
-import VacancyApplicationPage from "./pages/VacancyApplicationPage/VacancyApplicationPage"
+import GrowthRequestPage from "./pages/GrowthRequestPage/GrowthRequestPage"
 import GrowthRequestTablePage from "./pages/GrowthRequestTablePage/GrowthRequestTablePage";
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
         <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
         <Route path={ROUTES.LOGIN} element={<LoginPage />} />
         <Route path={ROUTES.ACCOUNT} element={<UpdateUserPage />} />
-        <Route path={`${ROUTES.VACANCYAPPLICATION}/:app_id`} element={<VacancyApplicationPage />} />
+        <Route path={`${ROUTES.VACANCYAPPLICATION}/:app_id`} element={<GrowthRequestPage />} />
         <Route path={ROUTES.GROWTH_REQUEST_TABLE} element={<GrowthRequestTablePage />} />
       </Routes>
     </BrowserRouter>

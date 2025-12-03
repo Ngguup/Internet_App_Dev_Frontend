@@ -1,4 +1,4 @@
-import "./VacancyApplicationPage.css"
+import "./GrowthRequestPage.css"
 import { FC } from 'react';
 import { Col, Row, Image, Alert, Form, Button } from "react-bootstrap";
 
@@ -14,13 +14,13 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
-import { getVacancyApplication, } from '../../slices/vacancyApplicationDraftSlice';
-import { deleteVacancyApplication, formVacancyApplication, setError } from '../../slices/vacancyApplicationDraftSlice';
+import { getGrowthRequest, } from '../../slices/growthRequestDraftSlice';
+import { deleteGrowthRequest, formGrowthRequest, setError } from '../../slices/growthRequestDraftSlice';
 
-import { setVacancyData } from '../../slices/vacancyApplicationDraftSlice';
-import { updateVacancyApplication } from '../../slices/vacancyApplicationDraftSlice';
+import { setGrowthRequestData } from '../../slices/growthRequestDraftSlice';
+import { updateGrowthRequest } from '../../slices/growthRequestDraftSlice';
 
-const VacancyApplicationPage: FC = () => {
+const GrowthRequestPage: FC = () => {
   const { app_id } = useParams();
   const app_id_num = Number(app_id)
 
@@ -31,12 +31,12 @@ const VacancyApplicationPage: FC = () => {
     factors,
     growth_request,
     error,
-  } = useSelector((state: RootState) => state.vacancyApplicationDraft);
-  const isDraft = useSelector((state: RootState) => state.vacancyApplicationDraft.isDraft);
+  } = useSelector((state: RootState) => state.growthRequestDraft);
+  const isDraft = useSelector((state: RootState) => state.growthRequestDraft.isDraft);
 
   useEffect(() => {
     if (app_id) {
-      dispatch(getVacancyApplication(app_id_num));
+      dispatch(getGrowthRequest(app_id_num));
     }
   }, [dispatch]);
 
@@ -48,7 +48,7 @@ const VacancyApplicationPage: FC = () => {
     e.preventDefault();
     if (app_id) {
       try {
-        await dispatch(deleteVacancyApplication(app_id_num)).unwrap();
+        await dispatch(deleteGrowthRequest(app_id_num)).unwrap();
       navigate(ROUTES.DATA_GROWTH_FACTORS);
       } catch (error) {
         dispatch(setError(error));
@@ -59,7 +59,7 @@ const VacancyApplicationPage: FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     dispatch(
-        setVacancyData({
+        setGrowthRequestData({
             ...growth_request,
             [name]: value,
         })
@@ -74,7 +74,7 @@ const VacancyApplicationPage: FC = () => {
         EndPeriod: growth_request.EndPeriod ?? ''
       };
       try {
-        dispatch(updateVacancyApplication({ appId: app_id_num, growthRequestData: growthRequestDataToSend }));
+        dispatch(updateGrowthRequest({ appId: app_id_num, growthRequestData: growthRequestDataToSend }));
       } catch (error) {
         dispatch(setError(error));
       }
@@ -85,7 +85,7 @@ const VacancyApplicationPage: FC = () => {
     e.preventDefault();
     if (app_id) {
       try {
-        await dispatch(formVacancyApplication(app_id_num)).unwrap();
+        await dispatch(formGrowthRequest(app_id_num)).unwrap();
       navigate(ROUTES.DATA_GROWTH_FACTORS);
       } catch (error) {
         dispatch(setError(error));
@@ -188,7 +188,7 @@ const VacancyApplicationPage: FC = () => {
             </Col>
           ))
         ) : (
-          <section className="cities-not-found">
+          <section className="factors-not-found">
             <h1>К сожалению, пока ничего не найдено :(</h1>
           </section>
       )}
@@ -207,4 +207,4 @@ const VacancyApplicationPage: FC = () => {
   );
 };
 
-export default VacancyApplicationPage;
+export default GrowthRequestPage;

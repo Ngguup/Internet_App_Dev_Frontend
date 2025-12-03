@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { DATA_GROWTH_FACTORS_MOCK } from "../modules/mock";
 import BasicExample from "../components/BasicExample/BasicExample";
 
-import { getDataGrowthFactorsList } from '../slices/citiesSlice';
+import { getDataGrowthFactorsList } from '../slices/factorsSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 // import { setSearch, setMinCoeff, setMaxCoeff } from "../store/filterReducer";
@@ -31,8 +31,8 @@ const GrowthForecastPage: FC = () => {
   const { searchValue, minCoeff, maxCoeff, dgf, loading } = useSelector((state: RootState) => state.dgf);
 
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
-  const app_id = useSelector((state: RootState) => state.vacancyApplicationDraft.app_id);
-  const count = useSelector((state: RootState) => state.vacancyApplicationDraft.count);
+  const app_id = useSelector((state: RootState) => state.growthRequestDraft.app_id);
+  const count = useSelector((state: RootState) => state.growthRequestDraft.count);
   const [grCart, setGrCart] = useState(0)
 
   const handleClick = (app_id: number | null) => {
