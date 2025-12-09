@@ -16,14 +16,14 @@ export default defineConfig({
   // base: './',
   base: dest_root,
   server: {
-    https:{
-      key: fs.readFileSync(path.resolve(__dirname, 'cert.key')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'cert.crt')),
-    },
     // https:{
-    //   key: fs.readFileSync(path.resolve(__dirname, 'localhost+2-key.pem')),
-    //   cert: fs.readFileSync(path.resolve(__dirname, 'localhost+2.pem')),
+    //   key: fs.readFileSync(path.resolve(__dirname, 'cert.key')),
+    //   cert: fs.readFileSync(path.resolve(__dirname, 'cert.crt')),
     // },
+    https:{
+      key: fs.readFileSync(path.resolve(__dirname, 'localhost+2-key.pem')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'localhost+2.pem')),
+    },
     proxy: {
       "/api": {
         target: api_proxy_addr,
