@@ -1,13 +1,10 @@
 import "./GrowthRequestPage.css"
 import { FC } from 'react';
-import { Col, Row, Image, Alert, Form, Button } from "react-bootstrap";
+import { Col, Form, Button } from "react-bootstrap";
 
 import { ROUTES } from '../../Routes';
-import { ROUTE_LABELS } from '../../Routes';
-import default_image from "/DefaultImage.jpg";
 import { DataGrowthFactorCard } from "../../components/DataGrowthFactorCard/DataGrowthFactorCard";
 import BasicExample from "../../components/BasicExample/BasicExample";
-import { BreadCrumbs } from "../../components/BreadCrumbs/BreadCrumbs";
 
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +27,6 @@ const GrowthRequestPage: FC = () => {
   const {
     factors,
     growth_request,
-    error,
   } = useSelector((state: RootState) => state.growthRequestDraft);
   const isDraft = useSelector((state: RootState) => state.growthRequestDraft.isDraft);
 

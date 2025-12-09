@@ -1,13 +1,13 @@
 import "./GrowthForecastPage.css";
 import { FC, useState, useEffect } from "react";
 import { Spinner, Button } from "react-bootstrap";
-import { DataGrowthFactor, getCartInfo, getDataGrowthFactorsByFilter } from "../modules/GrowthForecastApi";
+import {  getCartInfo } from "../modules/GrowthForecastApi";
 import InputField from "../components/InputField/InputField";
 import { BreadCrumbs } from "../components/BreadCrumbs/BreadCrumbs";
 import { ROUTES, ROUTE_LABELS } from "../Routes";
 import { DataGrowthFactorCard } from "../components/DataGrowthFactorCard/DataGrowthFactorCard";
 import { useNavigate } from "react-router-dom";
-import { DATA_GROWTH_FACTORS_MOCK } from "../modules/mock";
+// import { DATA_GROWTH_FACTORS_MOCK } from "../modules/mock";
 import BasicExample from "../components/BasicExample/BasicExample";
 
 import { getDataGrowthFactorsList } from '../slices/factorsSlice';
@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 // import { setSearch, setMinCoeff, setMaxCoeff } from "../store/filterReducer";
 
-import { DsDataGrowthFactor } from "../api/Api";
+// import { DsDataGrowthFactor } from "../api/Api";
 
 
 const GrowthForecastPage: FC = () => {
@@ -33,7 +33,7 @@ const GrowthForecastPage: FC = () => {
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
   const app_id = useSelector((state: RootState) => state.growthRequestDraft.app_id);
   const count = useSelector((state: RootState) => state.growthRequestDraft.count);
-  const [grCart, setGrCart] = useState(0)
+  const [_, setGrCart] = useState(0)
 
   const handleClick = (app_id: number | null) => {
       navigate(`${ROUTES.VACANCYAPPLICATION}/${app_id}`);

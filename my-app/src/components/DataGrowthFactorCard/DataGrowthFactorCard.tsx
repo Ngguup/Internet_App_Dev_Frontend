@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Card, Row, Col, Button } from 'react-bootstrap'
+import { Card, Button } from 'react-bootstrap'
 import "./DataGrowthFactorCard.css"
 import default_image from "/DefaultImage.jpg";
 import { DsDataGrowthFactor } from '../../api/Api';
