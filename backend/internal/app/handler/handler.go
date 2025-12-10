@@ -59,7 +59,7 @@ func (h *Handler) RegisterHandler(router *gin.Engine) {
 		api.POST("/users/login", h.Login)
 	}
 
-	apiCreatorModerator := router.Group("api")
+	apiCreatorModerator := router.Group("/api")
 	apiCreatorModerator.Use(h.WithAuthCheck(role.Creator, role.Moderator))
 	{
 		apiCreatorModerator.POST("/data-growth-factors/:id/add", h.AddDataGrowthFactorToDraft)
@@ -79,7 +79,7 @@ func (h *Handler) RegisterHandler(router *gin.Engine) {
 		apiCreatorModerator.POST("/users/logout", h.Logout)
 	}
 
-	apiModerator := router.Group("api")
+	apiModerator := router.Group("/api")
 	apiModerator.Use(h.WithAuthCheck(role.Moderator))
 	{
 		apiModerator.POST("/data-growth-factors", h.CreateDataGrowthFactor)

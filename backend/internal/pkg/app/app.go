@@ -72,7 +72,7 @@ func (a *Application) RunApp() {
 	a.Handler.RegisterStatic(a.Router)
 
 	serverAddress := fmt.Sprintf("%s:%d", a.Handler.Config.ServiceHost, a.Handler.Config.ServicePort)
-	if err := a.Router.Run(serverAddress); err != nil {
+	if err := a.Router.RunTLS(serverAddress, "localhost+2.pem", "localhost+2-key.pem",); err != nil {
 		logrus.Fatal(err)
 	}
 	logrus.Info("Server down")
