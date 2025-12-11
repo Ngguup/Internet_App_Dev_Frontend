@@ -1,0 +1,21 @@
+{
+  "name": "Прогноз роста объема данных",
+  "short_name": "Growth Forecast",
+  "start_url": "/Internet_App_Dev_Frontend/",
+  "display": "standalone",
+  "background_color": "#F7F7F7",
+  "theme_color": "#F7F7F7",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/Internet_App_Dev_Frontend/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/Internet_App_Dev_Frontend/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
