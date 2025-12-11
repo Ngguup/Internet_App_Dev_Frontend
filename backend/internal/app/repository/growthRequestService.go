@@ -68,8 +68,9 @@ func (r *Repository) GetGrowthRequests(status string, startDate, endDate time.Ti
                 growth_requests.date_create,
                 growth_requests.date_finish,
                 growth_requests.creator_id,
-                growth_requests.moderator_id`).
-		Where("growth_requests.status != ?", "удалён")
+                growth_requests.moderator_id,
+				growth_requests.result`).
+		Where("growth_requests.status NOT IN ?", []string{"удалён", "черновик"})
 
 	if status != "" {
 		query = query.Where("growth_requests.status = ?", status)

@@ -87,6 +87,13 @@ export const deleteCityFromGrowthRequest = createAsyncThunk(
   }
 );
 
+export const updateFactorNum = createAsyncThunk(
+  'factors/updateFactorNum',
+  async ({factorId, factorNum} : {factorId: number, factorNum: number}) => {
+    await api.api.growthRequestDataGrowthFactorsUpdate(factorId, {factor_num: factorNum}); 
+  }
+);
+
 // export const formGrowthRequest = createAsyncThunk(
 //   'growthRequest/formGrowthRequest',
 //   async (appId: number) => {

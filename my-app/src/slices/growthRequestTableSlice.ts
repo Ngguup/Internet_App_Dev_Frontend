@@ -11,6 +11,7 @@ interface GrowthRequestRow {
     status: string;
     date_create: string;
     date_finish: string;
+    result: number;
 }
 
 const initialState: GrowthRequestTableState = {
@@ -47,6 +48,7 @@ const growthRequestTableSlice = createSlice({
             status: item.status ?? '',
             date_create: item.date_create ?? '',
             date_finish: item.date_finish ?? '',
+            result: item.result ?? ''
         }));
     })
       .addCase(getGrowthRequestsList.rejected, (state, action) => {

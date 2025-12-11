@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Card, Button } from 'react-bootstrap'
+import { Card, Form, Button } from 'react-bootstrap'
 import "./DataGrowthFactorCard.css"
 import default_image from "/DefaultImage.jpg";
 import { DsDataGrowthFactor } from '../../api/Api';
@@ -22,14 +22,13 @@ import { DataGrowthFactor } from '../../slices/growthRequestDraftSlice';
 // }
 interface Props extends DsDataGrowthFactor {
     imageClickHandler: () => void
-    factorNum?: number
     factors?: DataGrowthFactor[]
     app_id?: string
     isDraft?: boolean;
 }
 
 
-export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, imageClickHandler, factorNum, factors, app_id, isDraft}) => {
+export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, imageClickHandler, factors, app_id, isDraft}) => {
     const { pathname } = useLocation();
     const dispatch = useDispatch<AppDispatch>();
     const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
@@ -48,6 +47,22 @@ export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, image
             dispatch(setFactors(factors!.filter(factor => factor.ID !== id)));
         }
     }
+
+    const handleFactorNumChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if (id && factors) {
+            const { name, value } = e.target;
+            dispatch(
+                setFactors(
+                factors.map((factor) =>
+                    factor.ID === id ? {
+                        ...factor,
+                        [name]: value,
+                    }: factor
+                ))
+            );
+        }
+    };
+
     
     if (pathname === "/factors") {
         return (
@@ -68,9 +83,21 @@ export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, image
     if (pathname.includes("/vacancy_application")) {
         return (
             <div className="data-growth-factor-card">
-                <div className="aligned-text-hor">
+                {/* <div className="aligned-text-hor">
                     <p>{ title }:</p> <p className="input ms-2">{ factorNum }</p>
-                </div>
+                </div> */}
+                <Form.Group controlId="FactorNum" className="aligned-text-hor">
+                    <p>{ title }</p>
+                <Form.Control
+                    className="input ms-2"
+                    type="text"
+                    name="FactorNum"
+                    value={factors && id ? factors.find(f => f.ID === id)!.FactorNum : ''}
+                    onChange={handleFactorNumChange}
+                    required
+                    // disabled={!isDraft}
+                />
+                </Form.Group>
 
                 <div className="data-growth-factor-card-field">
                     <img className="data-growth-factor-card-img" src={image || default_image} alt={title}/>

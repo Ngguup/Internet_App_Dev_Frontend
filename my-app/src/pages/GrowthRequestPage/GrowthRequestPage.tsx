@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
-import { getGrowthRequest, } from '../../slices/growthRequestDraftSlice';
+import { getGrowthRequest, updateFactorNum, } from '../../slices/growthRequestDraftSlice';
 import { deleteGrowthRequest, formGrowthRequest, setError } from '../../slices/growthRequestDraftSlice';
 
 import { setGrowthRequestData } from '../../slices/growthRequestDraftSlice';
@@ -29,6 +29,8 @@ const GrowthRequestPage: FC = () => {
     growth_request,
   } = useSelector((state: RootState) => state.growthRequestDraft);
   const isDraft = useSelector((state: RootState) => state.growthRequestDraft.isDraft);
+
+  // console.log(factors)
 
   useEffect(() => {
     if (app_id) {
@@ -73,6 +75,19 @@ const GrowthRequestPage: FC = () => {
         dispatch(updateGrowthRequest({ appId: app_id_num, growthRequestData: growthRequestDataToSend }));
       } catch (error) {
         dispatch(setError(error));
+      }
+    }
+  }
+
+  const handleSaveFactorNums = () => {
+    if (factors) {
+      for (const factor of factors) {
+        try {
+          dispatch(updateFactorNum({ factorId: factor.ID, factorNum: Number(factor.FactorNum)}))
+        } catch (error) {
+          dispatch(setError(error));
+          break;
+        }
       }
     }
   }
@@ -175,7 +190,6 @@ const GrowthRequestPage: FC = () => {
                 image={item.Image}
                 title={item.Attribute}
                 coeff={item.Coeff}
-                factorNum={item.FactorNum}
                 imageClickHandler={() => handleCardClick(item.ID)}
                 factors={factors}
                 app_id={app_id}
@@ -195,6 +209,9 @@ const GrowthRequestPage: FC = () => {
             </Button>
             <Button className="delete-btn ms-2" onClick={handleDelete}>
                 Очистить
+            </Button>
+            <Button className="delete-btn ms-2" onClick={handleSaveFactorNums}>
+                Сохранить факторы
             </Button>
           </div>
       )}
