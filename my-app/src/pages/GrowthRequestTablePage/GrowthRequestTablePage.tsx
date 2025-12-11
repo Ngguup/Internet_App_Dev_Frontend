@@ -10,11 +10,13 @@ import BasicExample from "../../components/BasicExample/BasicExample";
 import { BreadCrumbs } from "../../components/BreadCrumbs/BreadCrumbs";
 import "./GrowthRequestTablePage.css";
 
+import GrowthRequestTableInputField from "../../components/GrowthRequestTableInputField/GrowthRequestTableInputField";
+
 const GrowthRequestTablePage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { growthRequests, error } = useSelector(
+  const { searchStatus, startDate, endDate, growthRequests, loading, error } = useSelector(
     (state: RootState) => state.growthRequestTable
   );
 
@@ -49,6 +51,11 @@ const GrowthRequestTablePage: FC = () => {
 
         {error && <Alert variant="danger">{error}</Alert>}
 
+        <GrowthRequestTableInputField
+          status={searchStatus}
+          startDate={startDate}
+          endDate={endDate}
+        />
         <Table striped bordered hover responsive className="text-center">
           <thead>
             <tr>

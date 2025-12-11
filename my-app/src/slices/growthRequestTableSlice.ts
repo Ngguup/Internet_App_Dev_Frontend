@@ -1,9 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../api';
+import { RootState } from '../store';
 
 interface GrowthRequestTableState {
+    searchStatus: string;
+    startDate: string;
+    endDate: string;
     growthRequests: GrowthRequestRow[];
     error: string | null;
+    loading: boolean;
 }
 
 interface GrowthRequestRow {
@@ -15,14 +20,20 @@ interface GrowthRequestRow {
 }
 
 const initialState: GrowthRequestTableState = {
+    searchStatus: '',
+    startDate: '',
+    endDate: '',
     growthRequests: [],
-    error: null
+    error: null,
+    loading: false,
 }
 
 export const getGrowthRequestsList = createAsyncThunk(
   'gr/getGrowthRequestsList',
-  async (_, { rejectWithValue }) => {
-    const request = { state: "", start_date: "", end_date: ""};
+  async (_, { getState, rejectWithValue }) => {
+    const state = getState() as RootState; //?
+    const { searchStatus, startDate, endDate } = state.growthRequestTable;
+    const request = { status: searchStatus, start_date: startDate, end_date: endDate};
     try {
       const response = await api.api.growthRequestsList(request);
 
@@ -36,13 +47,25 @@ export const getGrowthRequestsList = createAsyncThunk(
 const growthRequestTableSlice = createSlice({
   name: 'growthRequestTable',
   initialState,
-  reducers: {},
+  reducers: {
+    setSearchStatus(state, action) {
+      state.searchStatus = action.payload;
+    },
+    setStartDate(state, action) {
+      state.startDate = action.payload;
+    }, 
+    setEndDate(state, action) {
+      state.endDate = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getGrowthRequestsList.pending, (state) => {
         state.error = null;
+        state.loading = true;
       })
       .addCase(getGrowthRequestsList.fulfilled, (state, action) => {
+        state.loading = false
         state.growthRequests = action.payload.map((item: Record<string, any>) => ({
             id: Number(item.id),
             status: item.status ?? '',
@@ -52,10 +75,16 @@ const growthRequestTableSlice = createSlice({
         }));
     })
       .addCase(getGrowthRequestsList.rejected, (state, action) => {
+        state.loading = false
         state.error = action.payload as string || 'Ошибка';
       })
       
   },
 });
+
+
+export const { setSearchStatus } = growthRequestTableSlice.actions;
+export const { setStartDate } = growthRequestTableSlice.actions;
+export const { setEndDate } = growthRequestTableSlice.actions;
 
 export default growthRequestTableSlice.reducer;
