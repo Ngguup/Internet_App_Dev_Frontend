@@ -1,1 +1,27 @@
+.growth-card-header {
+  border: 2px solid #bbb;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  background-color: #f7f7f7;
+  font-weight: bold;
+}
 
+
+.growth-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.growth-card:hover {
+  background-color: #f3f3f3;
+}
+
+.growth-card-selected {
+  background-color: #e5e5e5 !important;
+  border-color: #888;
+}

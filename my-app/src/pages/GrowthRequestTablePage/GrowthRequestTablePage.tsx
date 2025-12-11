@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Table, Button, Alert } from "react-bootstrap";
+import { Button, Alert, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ const GrowthRequestTablePage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { searchStatus, startDate, endDate, growthRequests, loading, error } = useSelector(
+  const { searchStatus, startDate, endDate, growthRequests, error } = useSelector(
     (state: RootState) => state.growthRequestTable
   );
 
@@ -26,7 +26,7 @@ const GrowthRequestTablePage: FC = () => {
     dispatch(getGrowthRequestsList());
   }, [dispatch]);
 
-  const handleRowClick = (id: number) => {
+  const handleCardClick = (id: number) => {
     setSelectedId(id);
   };
 
@@ -45,8 +45,8 @@ const GrowthRequestTablePage: FC = () => {
           { label: ROUTE_LABELS.GROWTH_REQUEST_TABLE },
         ]}
       />
-      <div className="container mt-5 pt-5">
 
+      <div className="container mt-5 pt-5">
         <h2 className="mb-4 mt-5">Таблица заявок на расчёт роста объёма данных</h2>
 
         {error && <Alert variant="danger">{error}</Alert>}
@@ -56,42 +56,37 @@ const GrowthRequestTablePage: FC = () => {
           startDate={startDate}
           endDate={endDate}
         />
-        <Table striped bordered hover responsive className="text-center">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Статус</th>
-              <th>Дата создания</th>
-              <th>Дата формирования</th>
-              <th>Результат</th>
-            </tr>
-          </thead>
-          <tbody>
-            {growthRequests.length > 0 ? (
-              growthRequests.map(row => (
-                <tr
-                    key={row.id}
-                    onClick={() => handleRowClick(row.id)}
-                    className={selectedId === row.id ? "table-row-selected" : ""}
-                    style={{ cursor: "pointer" }}
-                >
-                <td>{row.id}</td>
-                <td>{row.status}</td>
-                <td>{row.date_create}</td>
-                <td>{row.date_update}</td>
-                <td>{row.result}</td>
-                </tr>
 
-              ))
-            ) : (
-              <tr>
-                <td colSpan={4}>Заявки не найдены</td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
+        {/* 👉 Заголовок полей (один раз) */}
+        <Row className="growth-card-header">
+          <Col>ID</Col>
+          <Col>Статус</Col>
+          <Col>Дата создания</Col>
+          <Col>Дата формирования</Col>
+          <Col>Результат</Col>
+        </Row>
+
+        {/* 👉 Карточки */}
+        {growthRequests.length > 0 ? (
+          growthRequests.map((row) => (
+            <Row
+              key={row.id}
+              className={`growth-card ${selectedId === row.id ? "growth-card-selected" : ""}`}
+              onClick={() => handleCardClick(row.id)}
+            >
+              <Col>{row.id}</Col>
+              <Col>{row.status}</Col>
+              <Col>{row.date_create}</Col>
+              <Col>{row.date_update}</Col>
+              <Col>{row.result}</Col>
+            </Row>
+          ))
+        ) : (
+          <p className="text-center mt-3">Заявки не найдены</p>
+        )}
 
         <Button
+          className="mt-3"
           variant="outline-secondary"
           disabled={selectedId === null}
           onClick={handleNavigate}
