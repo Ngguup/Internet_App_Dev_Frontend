@@ -112,7 +112,7 @@ const GrowthRequestPage: FC = () => {
         <div className="result-data-growth-factor-card">
           <div className="aligned-text-hor">
               <p>Прогноз роста объема данных на основе выбранных параметров:</p>
-              <p className="result">?</p>
+              <p className="result">{ growth_request.Result }</p>
           </div>
           <p>Текущее количество данных: { growth_request.CurData }</p>
           <p>Начало периода: { growth_request.StartPeriod }</p>
@@ -122,7 +122,7 @@ const GrowthRequestPage: FC = () => {
         <div className="result-data-growth-factor-card">
             <div className="aligned-text-hor">
                 <p>Прогноз роста объема данных на основе выбранных параметров:</p>
-                <p className="result">?</p>
+                <p className="result">{ growth_request.Result }</p>
             </div>
             {/* <div className="aligned-text-hor">
                 <p>Текущее количество данных (б):</p>

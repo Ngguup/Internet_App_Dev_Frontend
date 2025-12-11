@@ -20,7 +20,8 @@ const initialState: GrowthRequestState = {
   growth_request: {
     CurData: NaN,
     StartPeriod: '',
-    EndPeriod: ''
+    EndPeriod: '',
+    Result: 0,
   },
   
   error: null,
@@ -40,6 +41,7 @@ interface GrowthRequestData {
     CurData?: number | null;
     StartPeriod?: string | null;
     EndPeriod?: string | null;
+    Result?: number | null;
 }
 
 
@@ -73,7 +75,8 @@ export const updateGrowthRequest = createAsyncThunk(
     const growthRequestDataToSend = {
       cur_data: Number(growthRequestData.CurData) || 0, 
       start_period: growthRequestData.StartPeriod ?? '',
-      end_period: growthRequestData.EndPeriod ?? ''
+      end_period: growthRequestData.EndPeriod ?? '',
+      result: Number(growthRequestData.Result) || 0,
     };
     const response = await api.api.growthRequestsUpdate(appId, growthRequestDataToSend);
     return response.data;
@@ -150,7 +153,8 @@ const growthRequestDraftSlice = createSlice({
                 state.growth_request = {
                     CurData: growth_request.CurData,
                     StartPeriod: growth_request.StartPeriod,
-                    EndPeriod: growth_request.EndPeriod
+                    EndPeriod: growth_request.EndPeriod,
+                    Result: growth_request.Result,
                 };
                 state.factors = factors || [];
             }
@@ -167,7 +171,8 @@ const growthRequestDraftSlice = createSlice({
             state.growth_request = {
                 CurData: NaN,
                 StartPeriod: '',
-                EndPeriod: ''
+                EndPeriod: '',
+                Result: NaN,
             };
         })
         .addCase(deleteGrowthRequest.rejected, (state) => {
