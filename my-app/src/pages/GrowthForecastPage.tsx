@@ -1,7 +1,6 @@
 import "./GrowthForecastPage.css";
-import { FC, useState, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { Spinner, Button } from "react-bootstrap";
-import {  getCartInfo } from "../modules/GrowthForecastApi";
 import InputField from "../components/InputField/InputField";
 import { BreadCrumbs } from "../components/BreadCrumbs/BreadCrumbs";
 import { ROUTES, ROUTE_LABELS } from "../Routes";
@@ -33,7 +32,6 @@ const GrowthForecastPage: FC = () => {
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
   const app_id = useSelector((state: RootState) => state.growthRequestDraft.app_id);
   const count = useSelector((state: RootState) => state.growthRequestDraft.count);
-  const [_, setGrCart] = useState(0)
 
   const handleClick = (app_id: number | null) => {
       navigate(`${ROUTES.VACANCYAPPLICATION}/${app_id}`);
@@ -68,9 +66,6 @@ const GrowthForecastPage: FC = () => {
 
   useEffect(() => {
     dispatch(getDataGrowthFactorsList());
-    getCartInfo()
-    .then((response) => setGrCart(response.service_count))
-    .catch(() => setGrCart(0))
   }, []);
 
   const handleCardClick = (id: number) => {
