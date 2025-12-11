@@ -182,6 +182,9 @@ func (h *Handler) GetGrowthRequests(ctx *gin.Context) {
 		if dateFinish, ok := req["date_finish"].(time.Time); ok {
 			req["date_finish"] = formatTime(dateFinish)
 		}
+		if dateUpdate, ok := req["date_update"].(time.Time); ok {
+			req["date_update"] = formatTime(dateUpdate)
+		}
 	}
 
 	switch role.Role(userRole) {

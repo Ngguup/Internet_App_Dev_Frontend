@@ -55,7 +55,7 @@ const GrowthRequestTablePage: FC = () => {
               <th>ID</th>
               <th>Статус</th>
               <th>Дата создания</th>
-              <th>Дата завершения</th>
+              <th>Дата формирования</th>
               <th>Результат</th>
             </tr>
           </thead>
@@ -71,7 +71,7 @@ const GrowthRequestTablePage: FC = () => {
                 <td>{row.id}</td>
                 <td>{row.status}</td>
                 <td>{row.date_create}</td>
-                <td>{row.date_finish}</td>
+                <td>{row.date_update}</td>
                 <td>{row.result}</td>
                 </tr>
 

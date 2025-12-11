@@ -67,6 +67,7 @@ func (r *Repository) GetGrowthRequests(status string, startDate, endDate time.Ti
                 growth_requests.status,
                 growth_requests.date_create,
                 growth_requests.date_finish,
+				growth_requests.date_update,
                 growth_requests.creator_id,
                 growth_requests.moderator_id,
 				growth_requests.result`).

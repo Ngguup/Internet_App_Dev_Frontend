@@ -10,7 +10,7 @@ interface GrowthRequestRow {
     id: number;
     status: string;
     date_create: string;
-    date_finish: string;
+    date_update: string;
     result: number;
 }
 
@@ -47,7 +47,7 @@ const growthRequestTableSlice = createSlice({
             id: Number(item.id),
             status: item.status ?? '',
             date_create: item.date_create ?? '',
-            date_finish: item.date_finish ?? '',
+            date_update: item.date_update ?? '',
             result: item.result ?? ''
         }));
     })
