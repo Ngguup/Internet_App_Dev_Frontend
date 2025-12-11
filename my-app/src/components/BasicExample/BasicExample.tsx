@@ -42,7 +42,7 @@ function BasicExample() {
 
             {(isAuthenticated == true) && (
               <Nav.Link as={Link} to={ROUTES.GROWTH_REQUEST_TABLE} className='nav-link-hidden'>
-                Таблица заявок
+                Таблица прогнозов
               </Nav.Link>
             )}
 

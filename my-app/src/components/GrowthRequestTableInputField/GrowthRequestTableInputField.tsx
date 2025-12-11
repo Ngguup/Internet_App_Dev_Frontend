@@ -18,9 +18,9 @@ const GrowthRequestTableInputField: FC<Props> = ({ status, startDate, endDate, l
     const dispatch = useDispatch<AppDispatch>();
     return (
         <form className="growth-factor-search-form">
-            <input value={status} placeholder={"Статус"} onChange={(event => dispatch(setSearchStatus(event.target.value)))}/>
-            <input value={startDate} placeholder={"Дата от"} onChange={(event => dispatch(setStartDate(event.target.value)))}/>
-            <input value={endDate} placeholder={"Дата до"} onChange={(event => dispatch(setEndDate(event.target.value)))}/>
+            <input value={status} placeholder={"Состояние прогноза"} onChange={(event => dispatch(setSearchStatus(event.target.value)))}/>
+            <input value={startDate} placeholder={"Начало периода"} onChange={(event => dispatch(setStartDate(event.target.value)))}/>
+            <input value={endDate} placeholder={"Конец периода"} onChange={(event => dispatch(setEndDate(event.target.value)))}/>
 
             <Button disabled={loading} onClick={() => dispatch(getGrowthRequestsList())}></Button>
         </form>

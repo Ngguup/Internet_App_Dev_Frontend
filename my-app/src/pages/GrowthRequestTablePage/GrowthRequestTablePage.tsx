@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Button, Alert, Row, Col } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
@@ -8,17 +8,16 @@ import { getGrowthRequestsList } from "../../slices/growthRequestTableSlice";
 import { ROUTES, ROUTE_LABELS } from "../../Routes";
 import BasicExample from "../../components/BasicExample/BasicExample";
 import { BreadCrumbs } from "../../components/BreadCrumbs/BreadCrumbs";
-import "./GrowthRequestTablePage.css";
 
 import GrowthRequestTableInputField from "../../components/GrowthRequestTableInputField/GrowthRequestTableInputField";
+import "./GrowthRequestTablePage.css";
 
 const GrowthRequestTablePage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { searchStatus, startDate, endDate, growthRequests, error } = useSelector(
-    (state: RootState) => state.growthRequestTable
-  );
+  const { searchStatus, startDate, endDate, growthRequests, error } =
+    useSelector((state: RootState) => state.growthRequestTable);
 
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
@@ -26,7 +25,7 @@ const GrowthRequestTablePage: FC = () => {
     dispatch(getGrowthRequestsList());
   }, [dispatch]);
 
-  const handleCardClick = (id: number) => {
+  const handleRowClick = (id: number) => {
     setSelectedId(id);
   };
 
@@ -45,9 +44,8 @@ const GrowthRequestTablePage: FC = () => {
           { label: ROUTE_LABELS.GROWTH_REQUEST_TABLE },
         ]}
       />
-
-      <div className="container mt-5 pt-5">
-        <h2 className="mb-4 mt-5">Таблица заявок на расчёт роста объёма данных</h2>
+      <div className="container growth pt-5 mt-5">
+        <h3 className="mb-4">Таблица прогнозов на расчёт роста объёма данных</h3>
 
         {error && <Alert variant="danger">{error}</Alert>}
 
@@ -57,39 +55,41 @@ const GrowthRequestTablePage: FC = () => {
           endDate={endDate}
         />
 
-        {/* 👉 Заголовок полей (один раз) */}
-        <Row className="growth-card-header">
-          <Col>ID</Col>
-          <Col>Статус</Col>
-          <Col>Дата создания</Col>
-          <Col>Дата формирования</Col>
-          <Col>Результат</Col>
-        </Row>
+        {/* ---------------- Заголовок как карточка ---------------- */}
+        <div className="growth-card-header">
+          <div>ID</div>
+          <div>Состояние прогноза</div>
+          <div>Дата создания</div>
+          <div>Дата подачи</div>
+          <div>Текущий прогноз</div>
+        </div>
 
-        {/* 👉 Карточки */}
-        {growthRequests.length > 0 ? (
-          growthRequests.map((row) => (
-            <Row
-              key={row.id}
-              className={`growth-card ${selectedId === row.id ? "growth-card-selected" : ""}`}
-              onClick={() => handleCardClick(row.id)}
-            >
-              <Col>{row.id}</Col>
-              <Col>{row.status}</Col>
-              <Col>{row.date_create}</Col>
-              <Col>{row.date_update}</Col>
-              <Col>{row.result}</Col>
-            </Row>
-          ))
-        ) : (
-          <p className="text-center mt-3">Заявки не найдены</p>
-        )}
+        {/* ---------------- Карточки строк ---------------- */}
+        <div className="growth-cards-container">
+          {growthRequests.length > 0 ? (
+            growthRequests.map((row) => (
+              <div
+                key={row.id}
+                className={`growth-card ${selectedId === row.id ? "growth-card-selected" : ""}`}
+                onClick={() => handleRowClick(row.id)}
+              >
+                <div>{row.id}</div>
+                <div>{row.status}</div>
+                <div>{row.date_create}</div>
+                <div>{row.date_update}</div>
+                <div>{row.result}</div>
+              </div>
+            ))
+          ) : (
+            <div className="text-center mt-3">Заявки не найдены</div>
+          )}
+        </div>
 
         <Button
-          className="mt-3"
           variant="outline-secondary"
           disabled={selectedId === null}
           onClick={handleNavigate}
+          style={{ marginBlock: "10px" }}
         >
           Перейти
         </Button>

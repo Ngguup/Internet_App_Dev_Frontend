@@ -15,5 +15,5 @@ export const ROUTE_LABELS: {[key in RouteKeyType]: string} = {
   LOGIN: "Авторизация",
   ACCOUNT: "Личный Кабинет",
   VACANCYAPPLICATION: "Заявки",
-  GROWTH_REQUEST_TABLE: "Таблица заявок"
+  GROWTH_REQUEST_TABLE: "Таблица прогнозов"
 };
