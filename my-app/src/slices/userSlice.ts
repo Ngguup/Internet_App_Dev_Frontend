@@ -130,6 +130,8 @@ const userSlice = createSlice({
         console.log('Role: ', action.payload.Role)
         if (action.payload.Role === 1) {
           state.isModerator = true;
+        } else {
+          state.isModerator = false;
         }
       })
   },

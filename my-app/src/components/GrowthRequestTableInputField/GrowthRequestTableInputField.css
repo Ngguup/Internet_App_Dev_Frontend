@@ -1,4 +1,4 @@
-.growth-factor-search-form {
+.growth-factor-table-search-form {
     border: 1px solid #ddd; 
     border-radius: 10px;
 
@@ -6,30 +6,29 @@
     flex-direction: row;  
     align-items: center;  
     justify-content: center;
-    width: 972px;
     height: 62px;
 }
 
 @media (max-width: 1000px) {
-    .growth-factor-search-form {
-        width: 348px;
+    .growth-factor-table-search-form {
+        width: 248px;
         height: 145px;
         flex-direction: column;
     }
 }
 
-.growth-factor-search-form Button {
+.growth-factor-table-search-form Button {
     width: 24px;
     height: 24px;
     border: none;           
     background: url("/public/search-icon.png") center/24px no-repeat transparent;
 }
 
-.growth-factor-search-form input {
+.growth-factor-table-search-form input {
     font-size: 20px;
     /* border: none;              */
     border: 1px solid #EEEEEE; 
-    width: 300px;
+    width: 200px;
     outline: none;
     background: transparent; 
 }

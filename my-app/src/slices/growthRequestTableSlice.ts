@@ -6,6 +6,7 @@ interface GrowthRequestTableState {
     searchStatus: string;
     startDate: string;
     endDate: string;
+    creatorID: number | null;
     growthRequests: GrowthRequestRow[];
     error: string | null;
     loading: boolean;
@@ -23,6 +24,7 @@ const initialState: GrowthRequestTableState = {
     searchStatus: '',
     startDate: '',
     endDate: '',
+    creatorID: null,
     growthRequests: [],
     error: null,
     loading: false,
@@ -32,11 +34,14 @@ export const getGrowthRequestsList = createAsyncThunk(
   'gr/getGrowthRequestsList',
   async (_, { getState, rejectWithValue }) => {
     const state = getState() as RootState; //?
-    const { searchStatus, startDate, endDate } = state.growthRequestTable;
+    const { searchStatus, startDate, endDate, creatorID } = state.growthRequestTable;
     const request = { status: searchStatus, start_date: startDate, end_date: endDate};
     try {
       const response = await api.api.growthRequestsList(request);
-
+      console.log(response.data)
+      if (creatorID) {
+        response.data = response.data.filter((gr) => gr.creator_id === creatorID)
+      }
       return response.data;
     } catch (error) {
       return rejectWithValue('Ошибка при загрузке данных');
@@ -81,6 +86,9 @@ const growthRequestTableSlice = createSlice({
     }, 
     setEndDate(state, action) {
       state.endDate = action.payload;
+    },
+    setCreatorID(state, action) {
+      state.creatorID = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -118,5 +126,6 @@ const growthRequestTableSlice = createSlice({
 export const { setSearchStatus } = growthRequestTableSlice.actions;
 export const { setStartDate } = growthRequestTableSlice.actions;
 export const { setEndDate } = growthRequestTableSlice.actions;
+export const { setCreatorID } = growthRequestTableSlice.actions;
 
 export default growthRequestTableSlice.reducer;

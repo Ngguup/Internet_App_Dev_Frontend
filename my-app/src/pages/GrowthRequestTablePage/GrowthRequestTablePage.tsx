@@ -17,16 +17,25 @@ const GrowthRequestTablePage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { searchStatus, startDate, endDate, growthRequests, error } =
+  const { searchStatus, startDate, endDate, creatorID, growthRequests, error } =
     useSelector((state: RootState) => state.growthRequestTable);
 
   const { isModerator } = useSelector((state: RootState) => state.user);
 
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [selectedStatus, setSelectedStatus] = useState<string | null>(null)
+  const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
 
+  // ---------------- SHORT POLLING ----------------
   useEffect(() => {
-    dispatch(getGrowthRequestsList());
+    const fetchList = () => dispatch(getGrowthRequestsList());
+    fetchList();
+
+    const id = setTimeout(function tick() {
+      fetchList();
+      return setTimeout(tick, 3000);
+    }, 3000);
+
+    return () => clearTimeout(id);
   }, [dispatch]);
 
   const handleRowClick = (id: number, status: string) => {
@@ -41,11 +50,12 @@ const GrowthRequestTablePage: FC = () => {
   };
 
   const handleComplete = () => {
-    dispatch(completeGrowthRequest(selectedId!))
-  }
+    dispatch(completeGrowthRequest(selectedId!));
+  };
+
   const handleReject = () => {
-    dispatch(rejectGrowthRequest(selectedId!))
-  }
+    dispatch(rejectGrowthRequest(selectedId!));
+  };
 
   return (
     <div>
@@ -62,9 +72,11 @@ const GrowthRequestTablePage: FC = () => {
         {error && <Alert variant="danger">{error}</Alert>}
 
         <GrowthRequestTableInputField
+          isModerator={isModerator}
           status={searchStatus}
           startDate={startDate}
           endDate={endDate}
+          creatorID={creatorID}
         />
 
         {/* ---------------- Заголовок как карточка ---------------- */}
@@ -82,7 +94,9 @@ const GrowthRequestTablePage: FC = () => {
             growthRequests.map((row) => (
               <div
                 key={row.id}
-                className={`growth-card ${selectedId === row.id ? "growth-card-selected" : ""}`}
+                className={`growth-card ${
+                  selectedId === row.id ? "growth-card-selected" : ""
+                }`}
                 onClick={() => handleRowClick(row.id, row.status)}
               >
                 <div>{row.id}</div>
@@ -106,27 +120,29 @@ const GrowthRequestTablePage: FC = () => {
           >
             Перейти
           </Button>
-          {(isModerator && selectedStatus === "сформирован") && (
-            <Button
-            variant="outline-secondary"
-            disabled={selectedId === null}
-            onClick={handleComplete}
-            style={{ marginBlock: "10px" }}
-            className="ms-2"
-          >
-            Расчитать
-          </Button>
-          )}
-          {(isModerator && selectedStatus === "сформирован") && (
-            <Button
-            variant="outline-secondary"
-            disabled={selectedId === null}
-            onClick={handleReject}
-            style={{ marginBlock: "10px" }}
-            className="ms-2"
-          >
-            Отклонить
-          </Button>
+
+          {isModerator && selectedStatus === "сформирован" && (
+            <>
+              <Button
+                variant="outline-secondary"
+                disabled={selectedId === null}
+                onClick={handleComplete}
+                style={{ marginBlock: "10px" }}
+                className="ms-2"
+              >
+                Рассчитать
+              </Button>
+
+              <Button
+                variant="outline-secondary"
+                disabled={selectedId === null}
+                onClick={handleReject}
+                style={{ marginBlock: "10px" }}
+                className="ms-2"
+              >
+                Отклонить
+              </Button>
+            </>
           )}
         </div>
       </div>
