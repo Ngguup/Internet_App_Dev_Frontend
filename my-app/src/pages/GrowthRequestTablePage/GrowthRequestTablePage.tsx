@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
 
 import { getGrowthRequestsList } from "../../slices/growthRequestTableSlice";
+import { completeGrowthRequest, rejectGrowthRequest } from "../../slices/growthRequestTableSlice";
 import { ROUTES, ROUTE_LABELS } from "../../Routes";
 import BasicExample from "../../components/BasicExample/BasicExample";
 import { BreadCrumbs } from "../../components/BreadCrumbs/BreadCrumbs";
@@ -19,14 +20,18 @@ const GrowthRequestTablePage: FC = () => {
   const { searchStatus, startDate, endDate, growthRequests, error } =
     useSelector((state: RootState) => state.growthRequestTable);
 
+  const { isModerator } = useSelector((state: RootState) => state.user);
+
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<string | null>(null)
 
   useEffect(() => {
     dispatch(getGrowthRequestsList());
   }, [dispatch]);
 
-  const handleRowClick = (id: number) => {
+  const handleRowClick = (id: number, status: string) => {
     setSelectedId(id);
+    setSelectedStatus(status);
   };
 
   const handleNavigate = () => {
@@ -34,6 +39,13 @@ const GrowthRequestTablePage: FC = () => {
       navigate(`${ROUTES.VACANCYAPPLICATION}/${selectedId}`);
     }
   };
+
+  const handleComplete = () => {
+    dispatch(completeGrowthRequest(selectedId!))
+  }
+  const handleReject = () => {
+    dispatch(rejectGrowthRequest(selectedId!))
+  }
 
   return (
     <div>
@@ -71,7 +83,7 @@ const GrowthRequestTablePage: FC = () => {
               <div
                 key={row.id}
                 className={`growth-card ${selectedId === row.id ? "growth-card-selected" : ""}`}
-                onClick={() => handleRowClick(row.id)}
+                onClick={() => handleRowClick(row.id, row.status)}
               >
                 <div>{row.id}</div>
                 <div>{row.status}</div>
@@ -85,14 +97,38 @@ const GrowthRequestTablePage: FC = () => {
           )}
         </div>
 
-        <Button
-          variant="outline-secondary"
-          disabled={selectedId === null}
-          onClick={handleNavigate}
-          style={{ marginBlock: "10px" }}
-        >
-          Перейти
-        </Button>
+        <div>
+          <Button
+            variant="outline-secondary"
+            disabled={selectedId === null}
+            onClick={handleNavigate}
+            style={{ marginBlock: "10px" }}
+          >
+            Перейти
+          </Button>
+          {(isModerator && selectedStatus === "сформирован") && (
+            <Button
+            variant="outline-secondary"
+            disabled={selectedId === null}
+            onClick={handleComplete}
+            style={{ marginBlock: "10px" }}
+            className="ms-2"
+          >
+            Расчитать
+          </Button>
+          )}
+          {(isModerator && selectedStatus === "сформирован") && (
+            <Button
+            variant="outline-secondary"
+            disabled={selectedId === null}
+            onClick={handleReject}
+            style={{ marginBlock: "10px" }}
+            className="ms-2"
+          >
+            Отклонить
+          </Button>
+          )}
+        </div>
       </div>
     </div>
   );

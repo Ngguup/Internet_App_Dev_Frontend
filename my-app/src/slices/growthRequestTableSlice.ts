@@ -44,6 +44,31 @@ export const getGrowthRequestsList = createAsyncThunk(
   }
 );
 
+export const completeGrowthRequest = createAsyncThunk(
+  'gr/completeGrowthRequest',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      await api.api.growthRequestsCompleteUpdate(id, {action: "complete"});
+      return;
+    } catch (error) {
+      return rejectWithValue('Ошибка при расчёте');
+    }
+  }
+);
+
+export const rejectGrowthRequest = createAsyncThunk(
+  'gr/rejectGrowthRequest',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      await api.api.growthRequestsCompleteUpdate(id, {action: "reject"});
+      return;
+    } catch (error) {
+      return rejectWithValue('Ошибка при отмене');
+    }
+  }
+);
+
+
 const growthRequestTableSlice = createSlice({
   name: 'growthRequestTable',
   initialState,
@@ -73,12 +98,19 @@ const growthRequestTableSlice = createSlice({
             date_update: item.date_update ?? '',
             result: item.result ?? ''
         }));
-    })
+      })
       .addCase(getGrowthRequestsList.rejected, (state, action) => {
         state.loading = false
         state.error = action.payload as string || 'Ошибка';
       })
-      
+
+      .addCase(completeGrowthRequest.rejected, (state, action) => {
+        state.error = action.payload as string || 'Ошибка';
+      })
+
+      .addCase(rejectGrowthRequest.rejected, (state, action) => {
+        state.error = action.payload as string || 'Ошибка';
+      })
   },
 });
 

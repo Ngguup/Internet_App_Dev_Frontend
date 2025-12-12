@@ -4,12 +4,14 @@ import { api } from '../api';
 interface UserState {
   login: string;
   isAuthenticated: boolean;
+  isModerator: boolean;
   error?: string | null; 
 }
 
 const initialState: UserState = {
   login: '',
   isAuthenticated: false,
+  isModerator: false,
   error: null,
 };
 
@@ -63,6 +65,21 @@ export const registerUserAsync = createAsyncThunk(
   }
 );
 
+export const getUserAsync = createAsyncThunk(
+  'user/getUserAsync',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.api.usersMeList();
+      return response.data; 
+    } catch (error) {
+      return rejectWithValue('Ошибка при получении данных'); 
+    }
+  }
+);
+
+
+
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -107,6 +124,13 @@ const userSlice = createSlice({
       })
       .addCase(registerUserAsync.rejected, (state, action) => {
         state.error = action.payload as string;
+      })
+
+      .addCase(getUserAsync.fulfilled, (state, action) => {
+        console.log('Role: ', action.payload.Role)
+        if (action.payload.Role === 1) {
+          state.isModerator = true;
+        }
       })
   },
 });

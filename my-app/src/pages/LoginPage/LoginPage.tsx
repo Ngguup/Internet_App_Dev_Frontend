@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Form, Button, Alert, Container } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
-import { loginUserAsync } from '../../slices/userSlice';
+import { loginUserAsync, getUserAsync } from '../../slices/userSlice';
 import { useNavigate } from "react-router-dom";
 // import Header from "../../components/Header/Header";
 import BasicExample from '../../components/BasicExample/BasicExample';
@@ -26,6 +26,7 @@ const LoginPage: React.FC = () => {
         e.preventDefault();
         if (formData.login && formData.password) {
             await dispatch(loginUserAsync(formData)); // Отправляем 'thunk'
+            await dispatch(getUserAsync())
             navigate(`${ROUTES.DATA_GROWTH_FACTORS}`); // переход на страницу услуг
         }
     };
