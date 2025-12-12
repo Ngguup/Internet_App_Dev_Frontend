@@ -38,7 +38,6 @@ export const getGrowthRequestsList = createAsyncThunk(
     const request = { status: searchStatus, start_date: startDate, end_date: endDate};
     try {
       const response = await api.api.growthRequestsList(request);
-      console.log(response.data)
       if (creatorID) {
         response.data = response.data.filter((gr) => gr.creator_id === creatorID)
       }

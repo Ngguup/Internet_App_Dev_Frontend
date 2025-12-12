@@ -11,7 +11,7 @@
 
 @media (max-width: 1000px) {
     .growth-factor-table-search-form {
-        width: 248px;
+        width: 248px !important;
         height: 145px;
         flex-direction: column;
     }

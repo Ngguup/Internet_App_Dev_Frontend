@@ -86,18 +86,23 @@ export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, image
                 {/* <div className="aligned-text-hor">
                     <p>{ title }:</p> <p className="input ms-2">{ factorNum }</p>
                 </div> */}
-                <Form.Group controlId="FactorNum" className="aligned-text-hor">
-                    <p>{ title }</p>
-                <Form.Control
-                    className="input ms-2"
-                    type="text"
-                    name="FactorNum"
-                    value={factors && id ? factors.find(f => f.ID === id)!.FactorNum : ''}
-                    onChange={handleFactorNumChange}
-                    required
-                    // disabled={!isDraft}
-                />
-                </Form.Group>
+                {(isDraft) ? (
+                <>
+                    <Form.Group controlId="FactorNum" className="aligned-text-hor">
+                        <p>{ title }</p>
+                    <Form.Control
+                        className="input ms-2"
+                        type="text"
+                        name="FactorNum"
+                        value={factors && id ? factors.find(f => f.ID === id)!.FactorNum : '1'}
+                        onChange={handleFactorNumChange}
+                        required
+                        // disabled={!isDraft}
+                    />
+                    </Form.Group>
+                </>) : (
+                    <p>{title}: {factors && id ? factors.find(f => f.ID === id)!.FactorNum : '1'}</p>
+                )}
 
                 <div className="data-growth-factor-card-field">
                     <img className="data-growth-factor-card-img" src={image || default_image} alt={title}/>

@@ -168,7 +168,14 @@ const GrowthRequestPage: FC = () => {
         </div>
         )}
         {(isDraft) && (
-        <Button type="submit" className="delete-btn" onClick={handleSaveVacancy}>Сохранить прогноз</Button>
+          <div>
+            <Button type="submit" className="delete-btn" onClick={handleSaveVacancy}>
+              Сохранить прогноз
+            </Button>
+            <Button className="delete-btn ms-2" onClick={handleSaveFactorNums}>
+              Сохранить факторы
+            </Button>
+          </div>
         )}
         {/* {{ range $i, $factor := .dataGrowthFactors }}
         <div class="data-growth-factor-card">
@@ -209,9 +216,6 @@ const GrowthRequestPage: FC = () => {
             </Button>
             <Button className="delete-btn ms-2" onClick={handleDelete}>
                 Очистить
-            </Button>
-            <Button className="delete-btn ms-2" onClick={handleSaveFactorNums}>
-                Сохранить факторы
             </Button>
           </div>
       )}
