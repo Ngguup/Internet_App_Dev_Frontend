@@ -57,6 +57,8 @@ func (h *Handler) RegisterHandler(router *gin.Engine) {
 		// api.POST("/users/register", h.RegisterUser)
 		api.POST("/users/register", h.Register)
 		api.POST("/users/login", h.Login)
+
+		api.PUT("growth-requests/:id/result", h.UpdateGrowthRequestResult)
 	}
 
 	apiCreatorModerator := router.Group("/api")

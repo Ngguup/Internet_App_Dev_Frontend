@@ -10,6 +10,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
+
+	"bytes"
+	"encoding/json"
 )
 
 type FormattedGrowthRequest struct {
@@ -379,33 +382,118 @@ func (h *Handler) CompleteOrRejectGrowthRequest(ctx *gin.Context) {
 		return
 	}
 
-	now := time.Now()
+	moderatorID := GetUserID(ctx)
 
 	switch action {
 	case "complete":
-		var sum float64
-		for _, f := range factors {
-			sum += f.DataGrowthFactor.Coeff * f.FactorNum
+		// var sum float64
+		// for _, f := range factors {
+		// 	sum += f.DataGrowthFactor.Coeff * f.FactorNum
+		// }
+		// duration := growthRequest.EndPeriod.Sub(growthRequest.StartPeriod).Hours() / 24
+		// growthRequest.Result = float64(growthRequest.CurData) + sum*duration
+		// growthRequest.Status = "завершен"
+		requestBody := map[string]interface{}{
+			"moderator_id": &moderatorID,
+			"growth_request": growthRequest,
+			"factors": factors,
 		}
-		duration := growthRequest.EndPeriod.Sub(growthRequest.StartPeriod).Hours() / 24
-		growthRequest.Result = float64(growthRequest.CurData) + sum*duration
-		growthRequest.Status = "завершен"
+
+		jsonBody, err := json.Marshal(requestBody)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "cannot encode body"})
+			return
+		}
+		url := "http://0.0.0.0:8000/"
+		req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonBody))
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "cannot create request"})
+			return
+		}
+		req.Header.Set("Content-Type", "application/json")
+		client := &http.Client{}
+		resp, err := client.Do(req)
+		if err != nil {
+			ctx.JSON(http.StatusBadGateway, gin.H{"error": "cannot reach remote service"})
+			return
+		}
+		defer resp.Body.Close()
 	case "reject":
+		now := time.Now()
 		growthRequest.Status = "отклонен"
+		growthRequest.ModeratorID = &moderatorID
+		growthRequest.DateFinish = sql.NullTime{Time: now, Valid: true}
+		growthRequest.DateUpdate = now
+
+		if err := h.Repository.SaveGrowthRequest(growthRequest); err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
 	}
 
-	moderatorID := GetUserID(ctx)
-	growthRequest.ModeratorID = &moderatorID
+	ctx.JSON(http.StatusOK, gin.H{"message": "success"})
+}
+
+
+// UpdateGrowthRequestResult godoc
+// @Summary Добавить результат в заявку
+// @Description Добавляет в заявку результат
+// @Tags growth_requests
+// @Produce json
+// @Param id path int true "ID заявки"
+// @Param input body object true "Поля для обновления"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /api/growth-requests/{id}/result [put]
+func (h *Handler) UpdateGrowthRequestResult(ctx *gin.Context) {
+	const defToken = "ABCDEF12"
+
+	type updateGrowthRequestResultInput struct {
+		Result     float64    `json:"result"`
+		Token      string     `json:"token"`
+		ModeratorID uint       `json:"moderator_id"`
+	}
+
+	idStr := ctx.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
+		return
+	}
+	var input updateGrowthRequestResultInput
+	if err := ctx.ShouldBindJSON(&input); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if input.Token != defToken {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid token"})
+		return
+	}
+
+	growthRequest, _, err := h.Repository.GetGrowthRequestByIDWithFactors(uint(id))
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	
+	now := time.Now()
+	growthRequest.Status = "завершён"
+	growthRequest.ModeratorID = &input.ModeratorID
 	growthRequest.DateFinish = sql.NullTime{Time: now, Valid: true}
 	growthRequest.DateUpdate = now
+	growthRequest.Result = input.Result
 
 	if err := h.Repository.SaveGrowthRequest(growthRequest); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-
-	ctx.JSON(http.StatusOK, gin.H{"message": "success", "result": growthRequest.Result})
+	
+	ctx.JSON(http.StatusOK, gin.H{"message": "success"})
 }
+
+
 
 // DeleteGrowthRequest godoc
 // @Summary Удалить заявку на рост
