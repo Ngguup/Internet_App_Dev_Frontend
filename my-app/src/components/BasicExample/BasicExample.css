@@ -47,3 +47,9 @@
     margin: 0 !important; /* убираем отступы слева, если были */
   }
 }
+
+@media (max-width: 925px) {
+  .func-btn {
+    display: none !important;
+  }
+}
