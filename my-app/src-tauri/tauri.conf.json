@@ -1,12 +1,12 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "my-app",
+  "productName": "Growth_Forecast",
   "version": "0.1.0",
   "identifier": "com.growth.forecast.dev",
 
   "build": {
     "frontendDist": "../dist",
-    "devUrl": "http://localhost:3000/Internet_App_Dev_Frontend/",
+    "devUrl": "https://localhost:3000/Internet_App_Dev_Frontend/",
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build"
   },
@@ -16,7 +16,7 @@
     "windows": [
       {
         "url": "index.html",
-        "title": "my-app",
+        "title": "Growth Forecast",
         "width": 800,
         "height": 600,
         "resizable": true

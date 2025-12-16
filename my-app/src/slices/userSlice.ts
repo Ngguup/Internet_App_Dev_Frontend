@@ -23,7 +23,7 @@ export const loginUserAsync = createAsyncThunk(
       const response = await api.api.usersLoginCreate(credentials);
       return {"response": response.data, "login": credentials.login}; 
     } catch (error) {
-      return rejectWithValue('Ошибка авторизации'); // Возвращаем ошибку в случае неудачи
+      return rejectWithValue('Ошибка авторизации');
     }
   }
 );
@@ -48,7 +48,7 @@ export const updateUserAsync = createAsyncThunk(
       await api.api.usersMeUpdate(updateData);
       return {"login": updateData.login}; 
     } catch (error) {
-      return rejectWithValue('Ошибка редактирования'); // Возвращаем ошибку в случае неудачи
+      return rejectWithValue('Ошибка редактирования'); 
     }
   }
 );
@@ -60,7 +60,7 @@ export const registerUserAsync = createAsyncThunk(
       await api.api.usersRegisterCreate(credentials);
       return; 
     } catch (error) {
-      return rejectWithValue('Ошибка регистрации'); // Возвращаем ошибку в случае неудачи
+      return rejectWithValue('Ошибка регистрации'); 
     }
   }
 );
