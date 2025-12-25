@@ -444,6 +444,7 @@ func (h *Handler) CompleteOrRejectGrowthRequest(ctx *gin.Context) {
 // @Param input body object true "Поля для обновления"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]string
+// @Failure 403 {object} map[string]string
 // @Failure 500 {object} map[string]string
 // @Router /api/growth-requests/{id}/result [put]
 func (h *Handler) UpdateGrowthRequestResult(ctx *gin.Context) {
@@ -468,7 +469,7 @@ func (h *Handler) UpdateGrowthRequestResult(ctx *gin.Context) {
 	}
 
 	if input.Token != defToken {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid token"})
+		ctx.JSON(http.StatusForbidden, gin.H{"error": "invalid token"})
 		return
 	}
 
