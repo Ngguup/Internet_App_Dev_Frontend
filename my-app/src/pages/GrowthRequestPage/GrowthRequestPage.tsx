@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
-import { getGrowthRequest, updateFactorNum, } from '../../slices/growthRequestDraftSlice';
+import { getGrowthRequest } from '../../slices/growthRequestDraftSlice';
 import { deleteGrowthRequest, formGrowthRequest, setError } from '../../slices/growthRequestDraftSlice';
 
 import { setGrowthRequestData } from '../../slices/growthRequestDraftSlice';
@@ -79,18 +79,18 @@ const GrowthRequestPage: FC = () => {
     }
   }
 
-  const handleSaveFactorNums = () => {
-    if (factors) {
-      for (const factor of factors) {
-        try {
-          dispatch(updateFactorNum({ factorId: factor.ID, factorNum: Number(factor.FactorNum)}))
-        } catch (error) {
-          dispatch(setError(error));
-          break;
-        }
-      }
-    }
-  }
+  // const handleSaveFactorNums = () => {
+  //   if (factors) {
+  //     for (const factor of factors) {
+  //       try {
+  //         dispatch(updateFactorNum({ factorId: factor.ID, factorNum: Number(factor.FactorNum)}))
+  //       } catch (error) {
+  //         dispatch(setError(error));
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }
 
   const handleForm = async (e: React.FormEvent) => {
     e.preventDefault();

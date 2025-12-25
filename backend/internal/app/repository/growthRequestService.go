@@ -59,8 +59,6 @@ func (r *Repository) GetAllCartInfo() ([]gin.H, error) {
 }
 
 
-
-
 func (r *Repository) GetGrowthRequests(status string, startDate, endDate time.Time) ([]map[string]interface{}, error) {
 	query := r.db.Model(&ds.GrowthRequest{}).
 		Select(`growth_requests.id,
@@ -79,6 +77,10 @@ func (r *Repository) GetGrowthRequests(status string, startDate, endDate time.Ti
 
 	if !startDate.IsZero() && !endDate.IsZero() {
 		query = query.Where("growth_requests.date_create BETWEEN ? AND ?", startDate, endDate)
+	} else if !startDate.IsZero() {
+		query = query.Where("growth_requests.date_create >= ?", startDate)
+	} else if !endDate.IsZero() {
+		query = query.Where("growth_requests.date_create <= ?", endDate)
 	}
 
 	var result []map[string]interface{}

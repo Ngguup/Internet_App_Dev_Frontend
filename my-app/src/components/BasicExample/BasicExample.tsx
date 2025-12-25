@@ -10,22 +10,36 @@ import { logoutUserAsync } from '../../slices/userSlice';
 import { setSearchValue, getDataGrowthFactorsList } from '../../slices/factorsSlice'; 
 import { ROUTES } from '../../Routes';
 
+import { setStartDate } from '../../slices/growthRequestTableSlice';
+
 function BasicExample() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated); // получение из стора значения флага состояния приложения
-  const login = useSelector((state: RootState) => state.user.login); // получение значения username из стора
-  // Обработчик события нажатия на кнопку "Выйти"
+  const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated); 
+  const login = useSelector((state: RootState) => state.user.login); 
+  const startDate = useSelector((state: RootState) => state.growthRequestTable.startDate);
   const handleExit = async ()  => {
       await dispatch(logoutUserAsync());
 
-      dispatch(setSearchValue('')); // можно реализовать в `extrareducers` у функции logoutUserAsynс
+      dispatch(setSearchValue('')); 
       
-      navigate('/factors'); // переход на страницу списка услуг
+      navigate('/factors'); 
 
-      await dispatch(getDataGrowthFactorsList()); // для показа очищения поля поиска
+      await dispatch(getDataGrowthFactorsList()); 
   }
+
+  const handleGrowthTableClick = () => {
+    if (!startDate) {
+      const today = new Date().toLocaleDateString("ru-RU", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+      });
+
+      dispatch(setStartDate(today));
+    }
+  };
 
   return (
     <header>
@@ -41,7 +55,12 @@ function BasicExample() {
             </Nav.Link>
 
             {(isAuthenticated == true) && (
-              <Nav.Link as={Link} to={ROUTES.GROWTH_REQUEST_TABLE} className='nav-link-hidden'>
+              <Nav.Link 
+                as={Link} 
+                to={ROUTES.GROWTH_REQUEST_TABLE} 
+                className='nav-link-hidden'
+                onClick={handleGrowthTableClick}
+              >
                 Таблица прогнозов
               </Nav.Link>
             )}
