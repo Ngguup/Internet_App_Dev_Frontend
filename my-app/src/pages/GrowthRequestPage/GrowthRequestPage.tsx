@@ -172,9 +172,9 @@ const GrowthRequestPage: FC = () => {
             <Button type="submit" className="delete-btn" onClick={handleSaveVacancy}>
               Сохранить прогноз
             </Button>
-            <Button className="delete-btn ms-2" onClick={handleSaveFactorNums}>
+            {/* <Button className="delete-btn ms-2" onClick={handleSaveFactorNums}>
               Сохранить факторы
-            </Button>
+            </Button> */}
           </div>
         )}
         {/* {{ range $i, $factor := .dataGrowthFactors }}

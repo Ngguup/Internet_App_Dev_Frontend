@@ -11,15 +11,9 @@ import { getDataGrowthFactorsList } from '../../slices/factorsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { deleteCityFromGrowthRequest, setFactors } from '../../slices/growthRequestDraftSlice';
+import { updateFactorNum } from '../../slices/growthRequestDraftSlice';
 import { DataGrowthFactor } from '../../slices/growthRequestDraftSlice';
 
-// interface Props {
-//     image: string
-//     title: string
-//     description: string
-//     coeff: number
-//     imageClickHandler: () => void;
-// }
 interface Props extends DsDataGrowthFactor {
     imageClickHandler: () => void
     factors?: DataGrowthFactor[]
@@ -33,11 +27,10 @@ export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, image
     const dispatch = useDispatch<AppDispatch>();
     const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
 
-    // Обработчик события нажатия на кнопку "Добавить"
     const handleAdd = async () => {
         if (id) {
             await dispatch(addCityToGrowthRequest(id!));
-            await dispatch(getDataGrowthFactorsList()); // Для обновления отображения состояния иконки "корзины" 
+            await dispatch(getDataGrowthFactorsList());
         }
     }
 
@@ -45,6 +38,13 @@ export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, image
         if (id && app_id) {
             await dispatch(deleteCityFromGrowthRequest(id));
             dispatch(setFactors(factors!.filter(factor => factor.ID !== id)));
+        }
+    }
+
+    const handleSave = async () => {
+        if (id && factors) {
+            const factorNum = Number(factors.find(f => f.ID === id)!.FactorNum)
+            await dispatch(updateFactorNum({ factorId: id, factorNum: factorNum}));
         }
     }
 
@@ -110,7 +110,12 @@ export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, image
                 </div>
 
                 {(isDraft) && (
-                    <button className="delete-factor-btn" onClick={handleDelete}></button>
+                    <>
+                        <button className="delete-factor-btn" onClick={handleDelete}></button>
+                        <Button className="save-factor-num-btn" onClick={handleSave}>
+                            Сохранить фактор
+                        </Button>
+                    </>
                 )}
             </div>
             //   <div className="fav-card">

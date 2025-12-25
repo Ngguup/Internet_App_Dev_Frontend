@@ -91,12 +91,28 @@ p {
 
 .delete-factor-btn {
     position: absolute;
-    top: 20px;     /* отступ от верхнего края карточки */
-    right: 15px;   /* отступ от правого края */
+    top: 20px;     
+    right: 15px;  
     width: 20px;
     height: 20px;
 
     background: url("/Trash.png") center/20px no-repeat transparent; 
     border: none;
+    cursor: pointer;
+}
+
+.save-factor-num-btn {
+    position: absolute;
+    bottom: 15px;    
+    right: 25px;   
+
+    width: 228px;
+    height: 34px;
+    font-size: 16px;
+    font-weight: bold;
+    background: #FC8507 !important;
+    color: white;
+    border: none !important; 
+    border-radius: 10px;
     cursor: pointer;
 }
