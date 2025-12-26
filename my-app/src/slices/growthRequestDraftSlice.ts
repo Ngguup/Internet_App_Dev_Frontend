@@ -53,8 +53,8 @@ export const getGrowthRequest = createAsyncThunk(
   }
 );
 
-export const addCityToGrowthRequest = createAsyncThunk(
-  'factors/addCityToGrowthRequest',
+export const addFactorToGrowthRequest = createAsyncThunk(
+  'factors/addFactorToGrowthRequest',
   async (factorId: number) => {
     const response = await api.api.dataGrowthFactorsAddCreate(factorId);
     return response.data;
@@ -83,8 +83,8 @@ export const updateGrowthRequest = createAsyncThunk(
   }
 );
 
-export const deleteCityFromGrowthRequest = createAsyncThunk(
-  'factors/deleteCityFromGrowthRequest',
+export const deleteFactorFromGrowthRequest = createAsyncThunk(
+  'factors/deleteFactorFromGrowthRequest',
   async (factorId : number) => {
     await api.api.growthRequestDataGrowthFactorsDelete(factorId); 
   }

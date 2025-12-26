@@ -6,11 +6,11 @@ import { DsDataGrowthFactor } from '../../api/Api';
 
 import { useLocation } from 'react-router-dom';
 
-import { addCityToGrowthRequest, } from '../../slices/growthRequestDraftSlice';
+import { addFactorToGrowthRequest, } from '../../slices/growthRequestDraftSlice';
 import { getDataGrowthFactorsList } from '../../slices/factorsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
-import { deleteCityFromGrowthRequest, setFactors } from '../../slices/growthRequestDraftSlice';
+import { deleteFactorFromGrowthRequest, setFactors } from '../../slices/growthRequestDraftSlice';
 import { updateFactorNum } from '../../slices/growthRequestDraftSlice';
 import { DataGrowthFactor } from '../../slices/growthRequestDraftSlice';
 
@@ -29,14 +29,14 @@ export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, image
 
     const handleAdd = async () => {
         if (id) {
-            await dispatch(addCityToGrowthRequest(id!));
+            await dispatch(addFactorToGrowthRequest(id!));
             await dispatch(getDataGrowthFactorsList());
         }
     }
 
     const handleDelete = async () => {
         if (id && app_id) {
-            await dispatch(deleteCityFromGrowthRequest(id));
+            await dispatch(deleteFactorFromGrowthRequest(id));
             dispatch(setFactors(factors!.filter(factor => factor.ID !== id)));
         }
     }
@@ -120,7 +120,7 @@ export const DataGrowthFactorCard: FC<Props> = ({ id, image, title, coeff, image
             </div>
             //   <div className="fav-card">
             //     {(isDraft) && (
-            //         <Button className="fav-btn-open" onClick={() => handleDeleteCity()}>
+            //         <Button className="fav-btn-open" onClick={() => handleDeleteFactor()}>
             //             Удалить
             //         </Button>
             //     )}
